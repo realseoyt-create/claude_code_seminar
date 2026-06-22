@@ -1,0 +1,7 @@
+.DS_Store
+memory/
+test_output.pdf
+*.pdf.bak
+__pycache__/
+*.pyc
+클로드 세미나.pdf

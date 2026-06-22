@@ -1,0 +1,1717 @@
+metadata:
+  title: 클로드코드 잘 사용하기
+  subtitle: AI와 함께하는 새로운 개발 워크플로우
+  author: Test기술팀 서영택
+  badge: 전사 세미나
+slides:
+- type: cover
+  title: '클로드코드
+
+    잘 사용하기'
+  subtitle: AI와 함께하는 새로운 개발 워크플로우
+- type: toc
+  items:
+  - number: '01'
+    title: 코딩은 어디로 가고 있는가
+    active: false
+  - number: '02'
+    title: 왜 Claude Code인가
+    active: false
+  - number: '03'
+    title: AI 시대의 개발 방법론
+    active: false
+  - number: '04'
+    title: 하네스 & 컨텍스트 엔지니어링
+    active: true
+  - number: '05'
+    title: 이렇게 하면 망한다 — 한계와 실패 패턴
+    active: false
+  - number: '06'
+    title: 멀티 에이전트 활용
+    active: false
+  - number: '07'
+    title: 실전 워크플로우 & 도구 세팅
+    active: false
+  - number: 08
+    title: 모두의 이야기
+    active: false
+  - number: 09
+    title: AI 시대, 우리는 어떻게 해야 하나
+    active: false
+  - number: '10'
+    title: 마무리 & Q&A
+    active: false
+- type: quote
+  card: '이 89장의 장표를
+
+    **한 장도 직접 만들지 않은** 방법'
+  subtitle: 한 것은 하나 — **하네스 설계**
+  body: 이것이 오늘의 목적지
+- type: chapter
+  number: '01'
+  title: '코딩은 어디로
+
+    가고 있는가'
+- type: compare
+  section: ''
+  title: ''
+  subtitle: 추상화의 역사 — 1단계
+  cols:
+  - label: 기계어
+    code: '01001000 01100101
+
+      01101100 01101100
+
+      01101111 00000000'
+    dark: false
+  - title: C 언어
+    body: '"기계를 직접 다루지 않으면\n개발자가 아니다"'
+    dark: false
+  highlight: ''
+  page_num: 5
+- type: compare
+  section: ''
+  title: ''
+  subtitle: 추상화의 역사 — 2단계
+  cols:
+  - label: C
+    code: '<strike>ptr = malloc(size);</strike>
+
+      <strike>// ... use ptr ...</strike>
+
+      <strike>free(ptr);</strike>'
+    dark: false
+  - label: Java
+    code: 'Object obj = new Object();
+
+      // ... use obj ...
+
+      // GC handles cleanup'
+    dark: false
+  highlight: '"메모리 직접 관리 안 하면 개발이 아니다"'
+  page_num: 6
+- type: quote
+  section: 추상화의 역사 — 3단계
+  card: print("Hello")
+  subtitle: '"장난감 언어, 실제 개발에 못 쓴다"'
+  body: '**Python → #1 언어**'
+- type: quote
+  card: '"이 함수를 리팩토링하고 테스트를 작성해줘"'
+  subtitle: '"이건 진짜 개발이 아니다"'
+  body: ''
+- type: quote
+  card: 매번 틀렸다
+- type: stats
+  section: SECTION 1
+  title: 숫자로 보는 변화
+  page_num: 10
+  items:
+  - value: 25%
+    text: 'YC 2025 겨울 배치 중
+
+      코드베이스의 **95%를 AI로 생성**'
+  - value: ~3개월
+    text: 'Meta 엔지니어가 코드를
+
+      **직접 타이핑하지 않은** 기간'
+  - value: 100%
+    text: 'AI가 짠 코드가 사람의 터치 없이
+
+      **PR에 그대로 올라오는 일상**'
+- type: grid
+  section: SECTION 1
+  title: 마크다운이 코드를 대체하는 현실
+  subtitle: 이름은 다르지만 역할은 동일 — 마크다운으로 프로젝트 규칙을 AI에게 전달
+  page_num: 11
+  cards:
+  - title: Claude Code
+    body: CLAUDE.md
+    dark: false
+  - title: Cursor
+    body: Cursor Rules
+    dark: false
+  - title: GitHub Copilot
+    body: copilot-instructions.md
+    dark: false
+  - title: Codex
+    body: AGENTS.md
+    dark: false
+- type: flow
+  section: SECTION 1
+  title: 개발자의 새로운 역할
+  page_num: 12
+  flow:
+  - text: 코드를 잘 짜는 능력
+    highlight: false
+  - text: 문서를 잘 쓰는 능력
+    highlight: false
+  - text: 컨텍스트를 설계하는 능력
+    highlight: true
+  sidebar:
+  - title: 건축가
+    accent: false
+    body: '벽돌 쌓기 대신 설계도 작성.
+
+      정확한 설계도 → 튼튼한 건물.'
+  - title: 오케스트라 지휘자
+    accent: false
+    body: '직접 연주 대신 전체 조율.
+
+      CLAUDE.md = 총보'
+- type: compare
+  section: SECTION 1
+  title: 그래도 기초는 중요하다
+  subtitle: '"AI가 더 많이 해줄수록, 기초 지식을 가진 사람의 경쟁력이 역설적으로 올라간다"'
+  page_num: 13
+  cols:
+  - label: 변하는 것
+    title: 직접 코드를 타이핑하는 비중
+    body: 데모까지는 쉽지만, 실서비스로 만드는 건 전혀 다른 레벨
+    dark: false
+  - label: 변하지 않는 것
+    title: 시스템을 이해하는 능력
+    body: '보안 · 동시접속 · DB 스키마 · 캐싱
+
+      기본기 없이는 질문조차 불가'
+    dark: false
+- type: chapter
+  number: '02'
+  title: 왜 Claude Code인가
+- type: cards3
+  section: SECTION 2
+  title: AI 코딩 도구의 진화 3단계
+  page_num: 15
+  cards:
+  - label: 1단계
+    title: 자동완성
+    body: 'IDE가 다음 줄을 예측
+
+      반복 패턴에 탁월'
+    limit: '한계: 현재 파일로 컨텍스트 제한'
+    dark: false
+  - label: 2단계
+    title: 대화형 채팅
+    body: '코드 토론, 버그 설명
+
+      스니펫 붙여넣기'
+    limit: '한계: 다중 파일 조율이 수동'
+    dark: false
+  - label: 3단계
+    title: 에이전틱 코딩
+    body: '목표를 분해하고 독립 실행
+
+      전체 코드베이스 이해'
+    current: ← 지금 여기
+    dark: true
+- type: compare
+  section: SECTION 2
+  title: 개발 패러다임 전환
+  page_num: 16
+  cols:
+  - label: 기존 개발
+    title: 코드 작성
+    body: '테스트 · 오류 · 수정
+
+      반복...
+
+
+      인간이 **모든 단계를 직접** 수행'
+    dark: false
+  - label: 에이전틱 개발
+    title: 목표 정의
+    body: '에이전트가 실행
+
+      **변경 검토 · 승인**
+
+
+      인간은 **의도와 판단**에 집중'
+    dark: true
+- type: stats
+  section: SECTION 2
+  title: 에이전틱 코딩의 실제 성과
+  page_num: 17
+  items:
+  - value: 2주
+    text: 'CTO 추정 **4~8개월** 프로젝트를
+
+      에이전틱 코딩으로 완료
+
+      Augment Code + Vertex AI'
+  - value: 1~2일
+    text: '신규 개발자 온보딩
+
+      기존 **수주~수개월**에서 단축
+
+      첫날부터 의미 있는 기여 가능'
+  - value: 복합효과
+    text: '불가능하던 작업 실현
+
+      기술 부채 해결 · 즉각 피드백'
+- type: table
+  section: SECTION 2
+  title: AI 코딩 도구 비교
+  page_num: 18
+  col_widths: 220px 150px 1fr
+  columns:
+  - 도구
+  - 형태
+  - 특징
+  rows:
+  - label: GitHub Copilot
+    icon: 🤖
+    values:
+    - IDE 플러그인
+    - 코드 자동완성 중심, 가장 대중적
+  - label: Cursor
+    icon: 🎯
+    values:
+    - IDE
+    - AI 네이티브 에디터, 에이전틱 기능 내장
+  - label: Windsurf
+    icon: 🌊
+    values:
+    - IDE
+    - 에이전틱 IDE, Cascade 에이전트
+  - label: Codex (OpenAI)
+    icon: ⚡
+    values:
+    - 터미널 CLI
+    - 에이전틱, 로컬 실행, 확장 레이어 구조
+  - label: '**Claude Code**'
+    icon: ✳
+    values:
+    - 터미널 CLI
+    - 에이전틱, 로컬 실행, 확장 레이어 구조
+    highlight: true
+- type: cards3
+  section: SECTION 2
+  title: 에이전트 루프
+  subtitle: 목표만 주면 작업 완료까지 알아서 반복. 언제든 중단하여 방향 수정 가능.
+  page_num: 19
+  cards:
+  - label: '1'
+    title: 컨텍스트 수집
+    body: '파일 검색, 코드 구조 파악
+
+      설정 파일 읽기, 의존성 매핑'
+    dark: false
+  - label: '2'
+    title: 작업 수행
+    body: '파일 편집, 셸 명령 실행
+
+      새 파일 생성'
+    dark: false
+  - label: '3'
+    title: 결과 검증
+    body: '테스트 실행, 빌드 확인
+
+      오류 시 1로 복귀'
+    dark: true
+- type: list-rows
+  section: SECTION 2
+  title: 내장 도구 — 5가지 범주, 20개+
+  page_num: 20
+  rows:
+  - label: 파일 작업
+    desc: 파일 읽기, 코드 편집, 새 파일 생성, 이름 변경 및 재구성
+  - label: 검색
+    desc: 패턴으로 파일 찾기, 정규식으로 콘텐츠 검색, 코드베이스 탐색
+  - label: 실행
+    desc: 셸 명령 실행, 서버 시작, 테스트 실행, git 사용
+  - label: 웹
+    desc: 웹 검색, 문서 가져오기, 오류 메시지 조회
+  - label: '**코드 인텔리전스**'
+    desc: 타입 오류/경고 확인, 정의로 이동, 참조 찾기
+- type: list-rows
+  section: SECTION 2
+  title: 확장 레이어 구조
+  subtitle: CLAUDE.md만으로 시작. 필요에 따라 하나씩 추가.
+  page_num: 21
+  rows:
+  - label: 기초 · CLAUDE.md
+    desc: 모든 세션에서 로드되는 프로젝트 컨텍스트
+  - label: 자동화 · Skills
+    desc: 재사용 가능한 워크플로우
+  - label: 자동화 · Hooks
+    desc: 이벤트 기반 자동 실행
+  - label: 연결 · MCP
+    desc: 외부 서비스 통합 — Notion, GitHub, Slack 등 100개+
+  - label: 확장 · Subagents
+    desc: 격리된 병렬 작업
+  - label: 확장 · Agent Teams
+    desc: 독립 세션 협업
+  - label: 확장 · Plugins
+    desc: 패키징 · 배포
+- type: cards3
+  section: SECTION 2
+  title: Claude Code 생태계
+  subtitle: 도구 자체보다 **주변 생태계**가 더 빠르게 커지는 중.
+  page_num: 22
+  cards:
+  - label: 공식 확장 포인트
+    title: 스킬 · 플러그인 · MCP · 훅
+    body: 'Anthropic이 직접 설계한 확장 축 4종.
+
+      공식 문서·마켓 제공.'
+    dark: false
+  - label: 오픈소스 커뮤니티
+    title: awesome-claude-code
+    body: GitHub 기반 플러그인·스킬·워크플로우 모음. 레포·디스코드 활발.
+    dark: false
+  - label: 한국 커뮤니티
+    title: 블로그 · 영상 · 세미나
+    body: 한글 자료와 실무 사례가 빠르게 누적. 전사 도입에 필수 조건.
+    dark: true
+- type: quote
+  card: '도구의 기능 → 시간이 지나면 추격 가능.
+
+    **커뮤니티가 만든 플러그인·스킬·노하우·교육 자료 → 복제 불가.**'
+  subtitle: '문제가 생겼을 때 검색하면 답이 나오는 환경
+
+    = **실무 도입의 핵심 조건**'
+  body: 왜 생태계가 중요한가
+- type: chapter
+  number: '03'
+  title: 'AI 시대의
+
+    개발 방법론'
+- type: compare
+  section: SECTION 3
+  title: 왜 방법론이 필요한가
+  subtitle: 에이전틱 코딩 등장 → 병목의 이동.
+  page_num: 25
+  cols:
+  - label: 이전의 병목
+    title: 코드를 작성하는 것
+    dark: false
+  - label: 지금의 병목
+    title: 'AI에게 **무엇을** 시킬지 정하는 것
+
+      + 정말 원하는 대로 했는지 **확인**하는 것'
+    dark: true
+- type: table
+  section: SECTION 3
+  title: 타임라인
+  page_num: 26
+  col_widths: 130px 1fr
+  columns:
+  - 시기
+  - 사건
+  rows:
+  - label: '2025.02'
+    values:
+    - Karpathy, "Vibe Coding" 제시 — AI 코딩의 대중화, 문화적 전환점
+  - label: 2025 중반
+    values:
+    - AI 생성 코드의 품질/보안 문제 부각 — 구조화된 방법론의 필요성 대두
+  - label: 2025 하반기
+    values:
+    - SDD, 스펙 주도 프레임워크 등장 — Vibe Coding의 한계에 대한 업계 대응
+  - label: 2026 초
+    values:
+    - TDD, Context Engineering 부상 — 성숙한 AI 개발 워크플로우의 정립
+    highlight: true
+- type: compare
+  section: SECTION 3
+  title: 구조화 수준 스펙트럼
+  page_num: 27
+  cols:
+  - label: 자유
+    title: TDD
+    body: '테스트 주도
+
+
+      **검증**'
+    dark: false
+  - label: 엄격
+    title: SDD
+    body: '스펙 주도
+
+
+      **계획**'
+    dark: true
+- type: compare
+  section: SECTION 3
+  title: TDD (Test-Driven Development)
+  subtitle: '**테스트를 먼저 쓰고, 통과하는 코드를 나중에 쓴다.** AI 시대에는 인간이 테스트, AI가 구현.'
+  page_num: 28
+  cols:
+  - label: ''
+    bullets:
+    - '**1. 인간이 실패 테스트 작성 (Red)**'
+    - 2. AI가 통과 코드 구현 (Green)
+    - 3. 인간이 리뷰 → AI가 리팩토링
+    - 버그 **40~80%** 감소 — 2025 DORA
+    dark: true
+  - label: ''
+    left_borders:
+    - title: 왜 AI에게 특히 중요한가
+      body: AI는 "동작하는 것 같은" 코드를 자신 있게 만듦.\n테스트 없으면 **맞는지 틀린지 확인 불가.**
+    - title: AI의 치팅에 주의
+      body: '테스트 삭제 · 구현 먼저 작성 · assert 약화
+
+        → **테스트 수정 금지 규칙 필수**'
+    dark: false
+- type: compare
+  section: SECTION 3
+  title: TDD 예시
+  subtitle: 테스트를 먼저 쓰고, 통과하는 코드를 나중에 — AI 시대에도 원칙은 동일
+  page_num: 29
+  cols:
+  - label: ''
+    left_borders:
+    - title: '"사용자가 운동 페이지에서 과거 운동 클릭 시 상세 보기를 볼 수 있어야 한다"'
+    - title: '**RED** — 인간이 실패하는 테스트 작성'
+    - title: '**GREEN** — AI가 최소 코드로 통과'
+    - title: '**REFACTOR** — 인간 리뷰 후 AI가 정리'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: AI 치팅 3대 패턴
+      body: '· 테스트 삭제/skip으로 통과
+
+        · assert 약화 (값 → 타입 검증)
+
+        · 구현 먼저, 거기 맞춘 테스트'
+    - title: CLAUDE.md 필수 규칙
+      body: '**테스트 수정 금지**
+
+        RED 실패 확인 전 GREEN 진행 금지
+
+        구조 변경과 기능 변경 커밋 분리'
+    dark: false
+- type: grid
+  section: SECTION 3
+  title: SDD (Spec-Driven Development)
+  subtitle: '**코드가 아닌 스펙이 진실의 원천.** 무엇을(WHAT) 먼저 정의하고, 어떻게(HOW)는 AI에게.'
+  page_num: 30
+  cards:
+  - title: 1. SPECIFY — 인간이 "무엇을" 정의
+    body: 요구사항 · 수용 기준 · 제약조건
+    dark: true
+  - label: 언제 쓰나
+    body: '· 신규 기능 · 대규모 설계
+
+      · 여러 세션에 걸친 작업
+
+      · 팀 협업 (스펙 = 커뮤니케이션)'
+    dark: false
+  - title: 2. PLAN — AI가 "어떻게" 제안
+    body: 기술 스택 · 아키텍처 → 인간 승인
+    dark: false
+  - label: 핵심
+    body: '각 단계가 **파일로 저장 · 커밋 · 참조**
+
+      → 컨텍스트 소실 방어의 정석'
+    dark: true
+  - title: 3. TASKS — 분해 후 병렬 실행
+    body: 작업↔요구사항 매핑 유지
+    dark: false
+  full_card:
+    text: 모호한 부분 → `[NEEDS CLARIFICATION]` 마커로 구현 중단
+    border: true
+- type: compare
+  section: SECTION 3
+  title: SDD 실전 — spec-kit 워크플로우
+  subtitle: 3개 커맨드로 스펙 → 계획 → 태스크 분해. 15분 안에 전체 구조 문서화.
+  page_num: 31
+  cols:
+  - label: ''
+    left_borders:
+    - title: 1. SPECIFY
+      body: '/speckit.specify
+
+        "실시간 채팅 + 메시지 히스토리
+
+        + 온라인 상태"
+
+        → spec.md 생성 (WHAT/WHY 분리)'
+    - title: 2. PLAN
+      body: '/speckit.plan
+
+        "WebSocket, PostgreSQL, Redis"
+
+        → plan · data-model · contracts 생성'
+    - title: 3. TASKS
+      body: '/speckit.tasks
+
+        → 병렬 가능 작업 [P] 마킹'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 강제되는 원칙
+      body: '· WHAT/WHY와 HOW 명확히 분리
+
+        · 모호한 부분 → [NEEDS CLARIFICATION]
+
+        · 테스트 가능한 수용 기준 포함 필수
+
+        · Constitution Check — 조직 원칙 위반 게이트'
+    - title: 핵심
+      body: '모든 산출물이 **파일로 저장 · 커밋 · 참조**
+
+        → 컨텍스트 소실 방어의 정석'
+    dark: false
+  highlight: '출처: GitHub spec-kit'
+- type: table
+  section: SECTION 3
+  title: 방법론 비교
+  page_num: 32
+  col_widths: 160px 1fr 1fr
+  columns:
+  - ''
+  - TDD
+  - SDD
+  rows:
+  - label: 인간의 역할
+    values:
+    - 테스트 작성자
+    - 스펙 작성자
+  - label: 검증 방식
+    values:
+    - 자동 테스트
+    - 스펙 검증
+  - label: 프로덕션 적합도
+    values:
+    - '**높음**'
+    - '**높음**'
+  - label: 최적 장면
+    values:
+    - 기존 코드 수정 · 버그 수정
+    - 신규 기능 · 대규모 설계
+  highlight: 가장 강력한 조합 — **SDD로 정의 + TDD로 검증**
+- type: quote
+  card: Spec + TDD
+  subtitle: '**Spec** — "무엇을" 정의, 의도 명확화
+
+    + **TDD** — "정말 그렇게 됐는지" 검증, 결과를 자동으로 확인'
+  body: '스펙 없는 TDD — 나무는 보되 숲은 놓침
+
+    TDD 없는 스펙 — 검증 수단 부재'
+- type: compare
+  title: 이걸 매번 수동으로?
+  subtitle: 이걸 매번 수동으로?
+  cols:
+  - label: 스펙 템플릿
+    title: 계획 문서로 정착
+    dark: false
+  - label: Skills
+    title: TDD 워크플로우 패키징
+    dark: false
+  highlight: 이 시스템이 곧 **하네스 엔지니어링**
+- type: chapter
+  number: '04'
+  title: '하네스 &
+
+    컨텍스트 엔지니어링'
+- type: cards3
+  section: SECTION 4
+  title: 엔지니어링의 진화
+  page_num: 36
+  cards:
+  - label: 2023–
+    title: '프롬프트
+
+      엔지니어링'
+    body: '모델에
+
+      무엇을 **말할** 것인가
+
+
+      단일 프롬프트 · 정적'
+    dark: false
+  - label: 2025–
+    title: '컨텍스트
+
+      엔지니어링'
+    body: '모델에
+
+      무엇을 **보여줄** 것인가
+
+
+      입력 파이프라인 전체 · 동적'
+    dark: false
+  - label: 2026–
+    title: '하네스
+
+      엔지니어링'
+    body: '모델 주변에
+
+      무엇을 **구축할** 것인가
+
+
+      실행 환경 전체 · 시스템 아키텍처'
+    dark: true
+- type: compare
+  section: SECTION 4
+  title: 여전히 살아있는 프롬프트 엔지니어링
+  subtitle: 용어가 "컨텍스트 엔지니어링"으로 옮겨간 것뿐, 사라진 것이 아님. **기초에는 여전히 프롬프트.**
+  page_num: 37
+  cols:
+  - label: ''
+    body: '"프롬프트 엔지니어링은 죽지 않았습니다. 흡수되었을 뿐입니다. 좋은 컨텍스트 엔지니어는 여전히 좋은 프롬프트 엔지니어입니다."\n\n— Phil Schmid, Hugging Face'
+    dark: true
+  - label: ''
+    left_borders:
+    - title: '**프롬프트** ⊂ **컨텍스트** ⊂ **하네스**'
+      body: 한 번 말하는 법 → 모이는 구조 → 실행 환경 전체
+    - title: 안쪽이 부실하면 바깥도 부실
+      body: 모호한 CLAUDE.md 한 줄은 스킬·훅으로도 메울 수 없음
+    dark: false
+- type: compare
+  section: SECTION 4
+  title: 왜 프롬프트만으로는 부족한가
+  subtitle: 좋은 프롬프트도 잔존하는 문제. 에이전트가 여러 단계를 거치는 순간 — **숫자가 불리해짐.**
+  page_num: 38
+  cols:
+  - label: ''
+    left_borders:
+    - title: 재현성 문제
+      body: '같은 프롬프트에도 다른 결과.
+
+        AI는 **비결정적** 시스템.'
+    - title: 복리로 쌓이는 실패
+      body: '한 단계 5% 실패율이
+
+        20단계에선 치명적.'
+    dark: false
+  - label: 숫자로 보면
+    title: '각 단계 성공률 95%
+
+      20단계 체인이라면?'
+    body: '**36%**
+
+      0.95²⁰ = 0.358
+
+
+      "95% 동작" 에이전트 →
+
+      실제 작업의 2/3에서 실패.'
+    dark: true
+- type: cards3
+  section: SECTION 4
+  title: Agent = Model + Harness
+  subtitle: '"모델이 아닌 것은 전부 하네스입니다." — LangChain, Vivek Trivedy'
+  page_num: 39
+  cards:
+  - label: AGENT
+    title: 에이전트
+    dark: false
+  - label: MODEL
+    title: 텍스트 생성
+    dark: false
+  - label: HARNESS
+    title: 나머지 전부
+    dark: true
+  highlight: '하네스가 결정하는 것 — **무엇을 보는지**(컨텍스트) · **무엇을 할 수 있는지**(도구·권한) · **언제 멈추는지**(제약) · **잘못됐을 때**(복구)
+
+
+    비유 · 마구(馬具, horse tack): 고삐 · 안장 · 재갈처럼, 강력하지만 예측 불가능한 말(= LLM)을 올바른 방향으로 이끄는 장비 전체가 하네스.'
+- type: grid
+  section: SECTION 4
+  title: 하네스의 6대 구성 요소
+  page_num: 40
+  cards:
+  - num: '1'
+    title: 컨텍스트 엔지니어링
+    body: 각 단계에서 모델이 보는 정보를 설계. 무엇을 유지·요약·버릴지 관리
+    dark: false
+  - num: '2'
+    title: 도구 오케스트레이션
+    body: 어떤 도구가 가용한지, 실행이 어떻게 처리되는지 결정
+    dark: false
+  - num: '3'
+    title: 상태 및 메모리
+    body: 수 분~수 시간 실행되는 에이전트의 내구성 있는 상태 관리
+    dark: false
+  - num: '4'
+    title: 검증 루프
+    body: 출력 생성 후 행동 실행 전 발동. 스키마·의미적·정책 유효성
+    dark: false
+  - num: '5'
+    title: 오류 복구
+    body: 실패 감지 → 재시도, 다른 접근법, 인간에게 폴백
+    dark: false
+  - num: '6'
+    title: 인간 개입 제어
+    body: '핵심 의사결정에서 일시정지. DB 삭제? 결제?
+
+      → 승인 요구'
+    dark: false
+  cite: — Kai Renner, harness-engineering.ai
+- type: grid
+  section: SECTION 4
+  title: 에이전트 루프 — 하네스의 심장
+  subtitle: 거의 모든 코딩 에이전트가 반복하는 4단계. **각 단계가 하네스의 설계 지점.**
+  page_num: 41
+  cards:
+  - label: 1. GATHER CONTEXT
+    title: 파일 읽기, 검색, 질문
+    body: 무엇을 **안 보여줄지**를 설계하는 자리. 노이즈 유입 → 4가지 실패 모드 발동.
+    dark: true
+  - label: 2. TAKE ACTION
+    title: 코드 작성, 명령 실행, 툴 호출
+    body: 가능한 한 **되돌릴 수 있는** 액션으로. 실패 비용 낮음 → 과감함 허용.
+    dark: true
+  - label: 3. VERIFY WORK
+    title: 테스트, 린트, 타입체크, 리뷰
+    body: 자동 피드백 부재 → **루프가 환각 강화.** 이 단계 막히면 전부 붕괴.
+    dark: false
+  - label: 4. REPEAT
+    title: 결과를 다음 루프 컨텍스트로
+    body: 이전 결과가 다음 루프에 주입되는 지점. **Compaction·Pruning이 필수.**
+    dark: false
+  full_card:
+    text: 하네스 엔지니어링 = 이 4단계의 각 지점을 신뢰성 있게 만드는 작업.
+    border: true
+- type: compare
+  section: SECTION 4
+  title: Right Altitude — 지시문의 고도
+  subtitle: CLAUDE.md나 프롬프트를 쓸 때 가장 흔한 실수는 **두 극단**.
+  page_num: 42
+  cols:
+  - label: 너무 낮음 · OVER-SPECIFIED
+    title: 모든 케이스를 if/else로 박기
+    body: → 예외 상황에서 *brittle*
+    dark: false
+  - label: 너무 높음 · UNDER-SPECIFIED
+    title: '"잘 해줘", "깔끔하게"'
+    body: → 모델이 추측, 세션마다 결과 다름
+    dark: false
+  highlight: '올바른 고도 공식: **원칙 1줄 + 이유(why) 1줄 + 예시 1~2개** — 이게 붙어야 새 상황에도 일반화 가능.
+
+
+    자가진단 2문항: ① 의도하지 않은 상황에서도 유효 → OK / ② 아무 세션에 붙여도 행동 불변 → 너무 높음'
+- type: grid
+  section: SECTION 4
+  title: 하네스를 구성하는 4가지 도구
+  subtitle: Claude Code가 제공하는 확장 축. 이 4가지를 조합해 하네스 구축.
+  page_num: 43
+  cards:
+  - title: CLAUDE.md
+    body: '프로젝트 규칙
+
+      세션마다 자동 로드'
+    dark: true
+  - title: Skills
+    body: '재사용 워크플로우
+
+      /명령 으로 호출'
+    dark: false
+  - title: Hooks
+    body: '이벤트 기반 자동화
+
+      LLM 우회 — 강제 실행'
+    dark: false
+  - title: Plugins
+    body: '팀 단위 배포 패키지
+
+      npm install로 공유'
+    dark: false
+  full_card:
+    text: '**강제력 순서**: CLAUDE.md(권고) → Skills(호출 시) → Hooks(자동 차단) → Plugins(팀 배포)'
+    border: true
+- type: compare
+  section: SECTION 4
+  title: CLAUDE.md — 프로젝트의 "헌법"
+  subtitle: 모든 세션이 시작될 때 자동으로 로드되는 지속 컨텍스트. **하네스의 가장 기본적인 레이어.**
+  page_num: 44
+  cols:
+  - label: ✓ 검증 가능 · 구체적
+    code: '- 슬라이드 규격: 720pt × 405pt
+
+      - 종결어미: 명사형·구 단위만
+
+      - 금지: ~합니다 / ~입니다 공손체
+
+      - 디자인 토큰: bg=#faf8f5'
+    dark: false
+  - label: × 모호 · 검증 불가
+    body: '깔끔한 코드 작성
+
+      적절한 에러 핸들링
+
+      좋은 패턴 사용'
+    dark: false
+  highlight: '먼저 짚고 갈 것 — "지시가 아니라 **컨텍스트**"
+
+    시스템 프롬프트가 아님 — 사용자 메시지로 주입.
+
+    강제가 아닌 **권고**. 모호하면 Claude가 임의 해석.'
+- type: content
+  section: SECTION 4
+  title: CLAUDE.md 운영 원칙
+  subtitle: 공식 문서가 느낌표까지 붙여서 경고한 유일한 원칙 — **짧을수록 효과적.**
+  page_num: 45
+  big_quote:
+    text: '"한 줄씩 지워보세요. 지워도 Claude가 똑같이 동작하면 — 그 줄은 잡음."'
+    cite: — Claude Code Best Practices
+  cols:
+  - title: 크기 가이드라인
+    lines:
+    - '**~60줄** · HumanLayer (엄격파)'
+    - '**A4 약 1.5장** · Boris Cherny 팀'
+    - '**200줄 이하** · 공식 문서'
+    - '**500줄 이하** · Marconato'
+    - 숫자보다 신호 대 잡음비. 같은 신호 → 짧을수록 우세.
+  - title: 비대해지면 — 모듈화
+    mono_lines:
+    - <strong>@path/to/file</strong>  — 다른 파일을 import (최대 5홉)
+    - <strong>.claude/rules/</strong>  — 경로별 규칙, 읽을 때만 트리거
+    - <strong>/compact</strong>  후에도 CLAUDE.md는 재로드
+- type: compare
+  section: SECTION 4
+  title: CLAUDE.md는 살아있는 문서 — 현장 사례
+  subtitle: 한 번 쓰고 끝나는 정적 문서가 아닌, **피드백으로 자라는 유기체**처럼 운영.
+  page_num: 46
+  cols:
+  - label: Boris Cherny
+    title: Claude Code 창시자 · Anthropic
+    body: '주 수 회 업데이트.
+
+      **Claude가 실수할 때마다 한 줄 추가.**
+
+      PR에서 @claude 태그 → GitHub Action이 자동 커밋.'
+    dark: false
+  - label: 정구봉 (Team Attention)
+    title: 규모의 실천
+    body: 'CLAUDE.md 159개 + 스킬 100개+ 동시 운영.
+
+      "파일 하나는 짧게, 대신 파일을 많이."'
+    dark: false
+  highlight: '"버그는 한 번 고치는 게 아니라, CLAUDE.md에 한 줄을 추가하면서 고치는 것*이다.*"'
+- type: compare
+  section: SECTION 4
+  title: Skills & Hooks — 그게 뭔가
+  subtitle: 하네스를 구성하는 두 실행 단위. **Skill = 부르면 실행되는 워크플로우 · Hook = 이벤트에 자동 실행되는 스크립트.**
+  page_num: 47
+  cols:
+  - label: SKILL
+    title: 재사용 워크플로우 패키지
+    body: '**언제** — 반복되는 작업을 한 번에 호출하고 싶을 때
+
+      **형식** — frontmatter(name · description) + markdown 본문
+
+      **호출** — /skillname 또는 자연어 트리거
+
+      **선택** — description 기반 자동 매칭, 토큰 소비 없음 (호출 시 로드)
+
+      **예**: /commit · /review-pr'
+    dark: false
+  - label: HOOK
+    title: 이벤트 기반 자동 스크립트
+    body: '**언제** — 항상 적용해야 하는 규칙·검증·차단
+
+      **형식** — 이벤트 타입(PreToolUse...) + 실행 커맨드
+
+      **실행** — LLM이 아닌 셸 스크립트 — 반드시 실행
+
+      **예**: 파일 편집 후 ESLint · 커밋 전 테스트 · .env 편집 차단'
+    dark: false
+  highlight: 구분법 — **Skill = 내가 부를 때 실행 · Hook = 자동 실행.**
+- type: compare
+  section: SECTION 4
+  title: Skill은 어떻게 동작하는가
+  page_num: 48
+  cols:
+  - label: 실제 파일 구조
+    code: ".claude/skills/commit.md\n\n---\nname: commit\ndescription: Git 커밋 시 팀 컨벤션\n  메시지 자동 생성\n---\n\n# 규칙\n1. 브랜치명에서 PIMS 번호 추출\n2. 변경사항 분석 → Type 결정\n3. #{PIMS} {Type} : {설명}"
+    dark: true
+  - label: 호출 → 실행 흐름
+    left_borders:
+    - title: '1 사용자: /commit 또는 "커밋해줘"'
+    - title: 2 Claude가 등록된 skill의 **description 스캔**
+    - title: 3 매칭된 skill **본문을 컨텍스트에 로드** → 이 시점에서만 토큰 소비 (평소엔 0)
+    - title: 4 본문의 지시대로 작업 수행
+    dark: false
+  highlight: 'frontmatter의 description이 핵심 — Claude가 이걸 읽고 매칭 결정
+
+
+    Skill = **필요할 때만 꺼내 쓰는 CLAUDE.md** — 100개 등록해도 호출 전엔 토큰 0'
+- type: compare
+  section: SECTION 4
+  title: Plugins — 하네스를 포장해서 팀 자산으로
+  subtitle: 4개 레이어 위에 얹히는 배포 레이어
+  page_num: 49
+  cols:
+  - label: 새 기능이 아니라 포장지
+    body: '이미 존재하는 **Skill · Subagent · Hook · MCP · LSP**를 단일 단위로 번들링해 팀·커뮤니티에 배포하는 메커니즘
+
+
+      standalone → plugin 전환은 파일 이동 + 매니페스트 1개 수준'
+    dark: false
+  - code: '> /plugin marketplace add nkia-ai-team/claude-code-skills
+
+      ✓ Added marketplace: nkia-ai-marketplace
+
+      → 14 skills available
+
+
+      > /plugin install nkia-ai-tools@nkia-ai-marketplace
+
+      ✓ Installing nkia-ai-tools ... done
+
+      → Added skills: /commit /code-review /kickoff ...
+
+
+      > /plugin list
+
+      nkia-ai-tools ● installed'
+    dark: true
+  highlight: 개인이 쌓아올린 하네스를 **조직 자산**으로 전환하는 마지막 한 조각
+- type: grid
+  section: SECTION 4
+  title: 대표적인 스킬 레포
+  subtitle: 반복되는 워크플로우를 `/명령` 한 줄로.
+  page_num: 50
+  cards:
+  - label: 코드 품질
+    mono_lines:
+    - <strong>/code-review</strong> — PR/MR 자동 리뷰 (OWASP · SOLID · 성능 · 테스트)
+    - <strong>/commit</strong> — PIMS 이슈 번호 포함 · 컨벤션 커밋 자동 생성
+    dark: false
+  - label: 프로젝트 관리
+    mono_lines:
+    - <strong>/linear-issue-creator</strong> — 자연어 → 이슈 자동 생성 (DoD · AC · 마감일 · 라벨)
+    - <strong>/linear-issue-validator</strong> — DoD/AC 자동 검증
+    dark: false
+  - label: 온보딩 · 전환
+    mono_lines:
+    - <strong>/kickoff</strong> — 프로젝트 초기 세팅
+    - <strong>/figma-to-react</strong> — Figma → React 변환
+    dark: false
+  - label: 워크플로우
+    mono_lines:
+    - <strong>/submit</strong> — 작업 제출 + PR 생성
+    - <strong>/wrap-up</strong> — 일일 작업 정리 · 보고
+    dark: false
+  full_card:
+    text: 한 번 만든 스킬 → 팀 전원이 `/commit` 한 마디로 호출. **반복 작업의 종결.**
+    border: true
+- type: quote
+  section: SECTION 4
+  card: '도구를 알았으니
+
+    조합하는 패턴'
+  subtitle: Plan–Critic–Build · Ralph Loop · 암묵지 추출
+- type: cards3
+  section: SECTION 4
+  title: Plan–Critic–Build — 계획과 실행의 분리
+  subtitle: '에이전트가 가장 많이 실패하는 지점: **계획 없이 바로 코드 작성.** 해결책은 단순 — 계획 단계를 쓰기 권한 없는 모드로 분리.'
+  page_num: 52
+  cards:
+  - label: 1. PLAN
+    title: 읽기만 · 쓰기 금지
+    body: '파일 읽기·검색·질문만. 결과: 편집 가능한 계획 문서.'
+    dark: false
+  - label: 2. CRITIC
+    title: 다른 눈으로 본다
+    body: 리뷰 전용 에이전트. 작성자의 blind spot을 드러내기.
+    dark: false
+  - label: 3. BUILD
+    title: 승인 후 실행
+    body: 승인된 계획 링크만 컨텍스트로. 쓰기 권한 개방.
+    dark: true
+  highlight: '**핵심**: Planner와 Critic을 같은 컨텍스트에 두지 말기. 자기 계획 → 자기 비평 시 blind spot 잔존.\nClaude Code의 Plan Mode( Shift+Tab ) — 1단계를 구조적으로 강제.\n"계획과 실행을 분리하는 것이 제가 AI 코딩에서 하는 가장 중요한 행위입니다." — Armin Ronacher'
+- type: compare
+  section: SECTION 4
+  title: Ralph Loop — 가장 단순한 하네스
+  subtitle: PROMPT.md 하나를 무한 루프로 반복 실행. The Simpsons의 Ralph Wiggum에서 이름을 딴 — **"바보처럼 단순한"** 루프.
+  page_num: 53
+  cols:
+  - label: ''
+    left_borders:
+    - title: '입력: PROMPT.md'
+    - title: '실행: Claude Code'
+    - title: '결과: 파일 수정 · 검증'
+    - title: '무한 루프: while ;; do ...'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 단순성 = 예측 가능성
+    - title: 새 프로젝트 전용
+    - title: 검증 없으면 환각 누적
+    dark: false
+  highlight: 실수 발견 → PROMPT.md에 규칙 한 줄 추가 → 다음 루프에서 자동 반영
+- type: compare
+  section: SECTION 4
+  title: 암묵지를 파일로 뽑아내라
+  subtitle: '"뭘 보여줘야 하지?" — 답은 이미 **머릿속**에. 리뷰할 때 말하던 것, 버그 겪고 반사적으로 체크하던 것 → 파일로 추출.'
+  page_num: 54
+  cols:
+  - label: ''
+    left_borders:
+    - title: ① 결정의 "이유"를 쓴다
+      body: 결과만 → 금방 낡음. 이유까지 → 일반화 가능
+    - title: ② Post-Mortem → 규칙
+      body: 계획과 구현의 분기점을 한 줄로 승화
+    - title: ③ Self-Improving
+      body: 피드백마다 규칙 한 줄씩 성장
+    - title: ④ 취향 → 전용 에이전트
+      body: 글로 쓰기 어려운 판단을 에이전트로 encode
+    dark: false
+  - label: ''
+    body: '머릿속 판단이 파일로 옮겨지는 순간 **하네스가 된다** — 한 줄씩 박제.
+
+      경험 → 규칙 → 재사용. 모호함도 점수화(0~10) → 구조화 가능.'
+    dark: true
+- type: cards3
+  section: SECTION 4
+  title: Harness Builder — 새로운 역할
+  page_num: 55
+  cards:
+  - title: Builder
+    body: '기능을 구현하고
+
+      코드를 작성'
+    dark: false
+  - title: Reviewer
+    body: '코드의 품질, 정확성,
+
+      보안을 검토'
+    dark: false
+  - title: '**Harness Builder**'
+    body: '에이전트가 일하는
+
+      환경 자체를 설계'
+    dark: true
+  note: '**OpenAI Codex 팀 — 5개월간 수동 코드 0줄로 100만 줄 프로덕트**
+
+    "우리 팀의 주된 업무는 에이전트가 유용한 일을 할 수 있도록 **환경을 만드는 것**이 되었다." — OpenAI Codex 팀'
+- type: chapter
+  number: '05'
+  title: 이렇게 하면 망한다
+  subtitle: 한계와 실패 패턴
+- type: compare
+  section: SECTION 5
+  title: 신뢰성의 수학 — 복리로 쌓이는 실패
+  subtitle: 각 단계 성공률 **95%** 가정 → 다단계 작업의 전체 성공률?
+  page_num: 57
+  cols:
+  - label: ''
+    left_borders:
+    - title: 단계 수 / 전체 성공률
+    - title: '1 단계: 95%'
+    - title: '5 단계: 77%'
+    - title: '10 단계: 60%'
+    - title: '**20 단계: 36%**'
+    - title: '**50 단계: 8%**'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 계획 → 탐색 → 작성 → 테스트 → 수정 → 커밋 — 20단계만 가도 **2/3이 실패**
+    - title: 에이전트를 만드는 건 쉬운 부분 — 프로덕션 신뢰성이 진짜 엔지니어링
+    - title: 검증 루프 · 재시도 · 체크포인트 — 복합 실패율을 낮추는 건 **하네스**뿐
+    dark: true
+- type: grid
+  section: SECTION 5
+  title: 컨텍스트의 4가지 실패 모드
+  subtitle: '"많이 넣어도 OK" — 사실 아님. Drew Breunig가 정리한 4가지 실패 모드.'
+  page_num: 58
+  cards:
+  - label: POISONING · 중독
+    title: 환각 1회 → 이후 오류 누적
+    body: 초반 오답 1개로 평균 39% 성능 저하
+    dark: true
+  - label: DISTRACTION · 산만
+    title: 히스토리 과의존, 실패한 액션 재시도
+    dark: false
+  - label: CONFUSION · 혼동
+    title: 무관한 정보 과잉 → 툴 30개+에서 급증
+    dark: false
+  - label: CLASH · 충돌
+    title: 모순된 정보 → 추론 붕괴
+    dark: false
+  full_card:
+    text: '"컨텍스트를 잡동사니 서랍처럼 다루면, 그 잡동사니가 답변에 영향을 줍니다." — Drew Breunig\n핵심은 "뭘 넣을까"보다 "**뭘 뺄까**".'
+    border: false
+- type: compare
+  section: SECTION 5
+  title: Context Rot — 길수록 조용히 썩는다
+  subtitle: Chroma Research가 Claude · GPT · Gemini · Qwen 등 **18개 최신 모델**을 대상으로 측정한 결과.
+  page_num: 59
+  cols:
+  - label: ''
+    title: '**50k** 토큰'
+    body: '20만 토큰 모델이 이미 열화되는 지점
+
+      한국어 약 4만 자. 윈도우가 꽉 차기 훨씬 전부터 성능 하락.'
+    dark: false
+  - label: ''
+    title: 방해문장 **1개**
+    body: '하나만 섞여도 성능 저하
+
+      4개면 급감. "많이 넣으면 좋다" 직관 붕괴.'
+    dark: false
+  highlight: '"관련 정보가 컨텍스트에 있느냐가 전부는 아닙니다. 더 중요한 것은 그 정보가 *어떻게* 제시되느냐입니다." — Chroma Research\n\n컨텍스트 = **길이가 아닌 신호 대 잡음비.** 쓸 수 있는 만큼 다 채울 필요 없음.'
+- type: grid
+  section: SECTION 5
+  title: 실패 패턴 5가지
+  subtitle: 도구를 잘 쓰는 것만큼 중요한 건, **잘못 쓰는 패턴**을 아는 것.
+  page_num: 60
+  cards:
+  - num: '01'
+    title: 컨텍스트 과부하
+    body: '"많이 주면 잘하겠지" — 섹션 4의 Rot · Distraction · Confusion'
+    dark: false
+  - num: '02'
+    title: '**불명확한 요구사항**'
+    body: '"이거 좀 고쳐줘" → LLM은 학습 데이터 기반 **추측 구현**. 맞아도 재현성 없음'
+    dark: false
+  - num: '03'
+    title: 검증 없는 자동수락
+    body: '"AI가 만들었으니 맞겠지" — 가장 위험한 생각. 자기 작업 평가 시 **병리적 낙관주의자**'
+    border: true
+    dark: false
+  - num: '04'
+    title: 긴 세션 드리프트
+    body: 시점 편향 · 오류 중첩 · Mode Collapse — 초반 규칙을 잊고 방향 상실
+    dark: false
+  full_card:
+    text: '**05 권한 과다**\n"바이패스가 편하니까" — 프롬프트 인젝션 · 토큰 유출 · 프로덕션 사고의 단일 경로'
+    border: false
+- type: cards3
+  section: SECTION 5
+  title: 그래도 여전히 중요한 기초
+  page_num: 61
+  cards:
+  - label: ''
+    title: '"AI가 다 해주니까 코드 안 배워도 되겠다" — 가장 위험한 생각'
+    body: ''
+    dark: true
+  - label: ''
+    title: AI의 **자신감 있게 틀린 코드** 제시
+    body: 기초 없으면 틀림 감지 불가
+    dark: false
+  - label: ''
+    title: 추상화 수준만 올라갔을 뿐
+    body: '**문제 해결 · 시스템 사고 · 디버깅**은 여전히 필수
+
+
+      진입장벽은 낮아졌으나, 고품질 역량은 오히려 **더 구조화**'
+    dark: false
+- type: chapter
+  number: '06'
+  title: 멀티 에이전트 활용
+- type: cards3
+  section: SECTION 6
+  title: 단일 에이전트의 세 가지 벽
+  subtitle: 하나의 에이전트가 오래 일할수록 필연적으로 맞닥뜨리는 벽 — **쪼개야 할 이유.**
+  page_num: 63
+  cards:
+  - label: '01'
+    title: 컨텍스트의 벽
+    body: '파일 · 테스트 · 로그 왕복 → **쓰레기로 가득한 컨텍스트**
+
+
+      50k 토큰부터 Context Rot · Distraction · Confusion 발동'
+    dark: false
+  - label: '02'
+    title: 역할의 벽
+    body: '"쓰고, 구현하고, 리뷰하고, 리팩터하라"를 한 에이전트에게 → **전부 어설프게.**\n\n자기 코드 자기 리뷰 = blind spot 그대로'
+    dark: false
+  - label: '03'
+    title: 신뢰성의 벽
+    body: '단계별 95% × 20단계 연쇄 = **전체 성공률 36%.**
+
+
+      긴 체인 = 수학적 실패'
+    dark: false
+  highlight: 하나의 에이전트 = 하나의 일.
+- type: list-rows
+  section: SECTION 6
+  title: 핵심 패턴 5가지
+  subtitle: 무엇을, 어떻게 **쪼개느냐**에 대한 서로 다른 답.
+  page_num: 64
+  rows:
+  - label: 01 Sub-Agent
+    desc: 단방향 심부름 — 탐색 · 검증 · 로그 파싱
+  - label: 02 Orchestrator
+    desc: 1:N 위임 — 계획자 + 실행자들
+  - label: 03 Parallel
+    desc: 평면 조직 — Git worktree 격리
+  - label: 04 GAN-Style
+    desc: 적대적 루프 — 루브릭으로 수렴
+  - label: 05 Agent Teams
+    desc: 양방향 대화 — 그래프 구조
+- type: compare
+  section: SECTION 6
+  title: Subagent vs Agent Team
+  subtitle: 둘 다 작업 위임 방식 — **규모와 독립성**에 따라 선택.
+  page_num: 65
+  cols:
+  - label: ''
+    title: '**Subagent**'
+    left_borders:
+    - title: 구조
+      body: 메인이 생성한 격리된 워커
+    - title: 컨텍스트
+      body: 자체 윈도우, 요약만 반환
+    - title: 통신
+      body: 주 에이전트에게만 보고
+    footer: 많은 파일 읽기, 병렬 조사
+    dark: false
+  - label: ''
+    title: '**Agent Team**'
+    left_borders:
+    - title: 구조
+      body: 여러 독립 세션이 협업
+    - title: 컨텍스트
+      body: 완전히 독립, 각자 별도 윈도우
+    - title: 통신
+      body: 팀원끼리 직접 메시지
+    footer: 보안/성능/테스트 동시 검토
+    dark: true
+- type: compare
+  section: SECTION 6
+  title: Sub-Agent — 가장 자주 쓰는 패턴
+  subtitle: 일상 작업의 80% — Sub-Agent로 해결.
+  page_num: 66
+  cols:
+  - label: 구조
+    body: '**Main** (컨텍스트 = 금)
+
+      → task →
+
+      **Sub** (격리된 컨텍스트)
+
+      50k+ 토큰 읽어도 OK, 메인은 오염 안됨
+
+      ← summary (1-2k) ←'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 컨텍스트 격리
+      body: 파일 50개 뒤져도 메인 오염 없음
+    - title: 도구 제한
+      body: 읽기 전용만 허용 → 사고 원천 차단
+    - title: 정보 격리 = 치팅 차단
+      body: Tester는 구현 못 봄 · Impl은 스펙 못 봄
+    dark: false
+  highlight: 메인 컨텍스트 = 금 · 서브에이전트의 산출 = **요약**
+- type: compare
+  section: SECTION 6
+  title: Agent Teams — 양방향 대화가 가능한 팀
+  subtitle: Sub-Agent가 "시켜놓고 받는" 구조라면, Teams는 **같이 토론하고 합의**하는 구조.
+  page_num: 67
+  cols:
+  - label: 동적 팀 구성 예 — 경쟁사 분석
+    body: 'Researcher(시장) + Researcher(제품) + Researcher(가격)
+
+      → 경쟁 분석 →
+
+      Consultant(분석 프라임) ↔ 양방향
+
+      Editor(최종 리포트)'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 자동 수정 루프
+      body: Worker 구현 → QA 검증 → Support 수정 → QA 재검증
+    - title: 공유 컨텍스트 뱅크
+      body: 프로젝트 스펙·제약은 중앙에 두고 참조
+    dark: false
+  highlight: 3명까지는 이득 · 10명 넘으면 대기 시간 > 작업 시간 — "팀이면 다 좋다"는 **환상 경계.**
+- type: grid
+  section: SECTION 6
+  title: 설계 4대 원칙
+  subtitle: 패턴이 무엇이든 공통으로 지켜야 하는 것 — **쪼갬의 네 축.**
+  page_num: 68
+  cards:
+  - num: '01'
+    title: 컨텍스트 격리
+    body: 각 에이전트 = 자기 일에 필요한 것만 · 메인 = 결정과 요약만.
+    dark: false
+  - num: '02'
+    title: 역할 경계 명시
+    body: '"무엇을 하고 무엇을 **안** 하는지" 명시 · 모호함 → 중복과 공백.'
+    dark: false
+  - num: '03'
+    title: 사전 모호성 제거
+    body: 실행 후 발견 → 이미 늦음. Ralphton 우승팀 — 개발 전 **133회 Q&A.**
+    dark: false
+  - num: '04'
+    title: 검증 주체 분리
+    body: 생성자 ≠ 검증자. Self-review → blind spot 잔존.
+    dark: false
+  full_card:
+    text: 멀티 에이전트 = "더 많은 AI"가 아니라 "더 좁은 역할의 AI 여럿"\n컨텍스트를 쪼갠다 · 역할을 쪼갠다 · 검증을 쪼갠다 · 시간을 쪼갠다
+    border: false
+- type: chapter
+  number: '07'
+  title: '실전 워크플로우 &
+
+    도구 세팅'
+- type: compare
+  section: SECTION 7
+  title: 두 가지 막다른 길
+  subtitle: 하네스 · 에이전트 · 컨텍스트 방어 · 암묵지 문서화 — 배울 것이 많음.
+  page_num: 70
+  cols:
+  - title: 직접 다 세팅
+    bullets:
+    - 한 번 세팅해도 업데이트 안 됨
+    - 팀에 공유되지 않음
+    - 시간이 지나면 맥락 휘발
+    - → **번아웃**
+    dark: false
+  - title: 원칙 없이 스킬만
+    bullets:
+    - 이상 동작 시 원인 판단 불가
+    - 같은 실수를 반복
+    - 디버깅할 수 없음
+    - → **블랙박스 의존**
+    dark: false
+  highlight: '**원리는 이해 · 구현은 위임** — 잘 만들어진 플러그인 활용.'
+- type: table
+  section: SECTION 7
+  title: OMC — 원리를 명령어로
+  subtitle: '**Oh My Claude Code** — Yeachan Heo(한국) 제작, GitHub Trending 1위. 핵심 — **원리를 사람이 외우지 않고 시스템이 강제**'
+  page_num: 71
+  col_widths: 160px 1fr
+  columns:
+  - 원리
+  - OMC 구현
+  rows:
+  - label: 역할 분리
+    values:
+    - 29+ 에이전트 — architect · critic · tester ...
+  - label: 모델 라우팅
+    values:
+    - /model 수동 전환 · 자동 선택 · 토큰 **30~50%↓**
+  - label: Plan–Critic–Build
+    values:
+    - /ralplan — 계획 → 비평 → 합의 후 실행
+  - label: 병렬 실행
+    values:
+    - /ultrapilot — 최대 5 워커 동시
+  - label: 검증 루프
+    values:
+    - /ultraqa — test → fix → 재실행 자동 순환
+  - label: Worktree 병렬
+    values:
+    - /project-session-manager + HUD + Slack
+  highlight: 핵심 — 사용자는 "**어떤 작업인지**"만 입력. 모드 · 에이전트 · 모델은 OMC 자동 선택.
+- type: compare
+  section: SECTION 7
+  title: 한 걸음 더 — 단일 모델 탈피
+  subtitle: 섹션 6이 **여러 Claude**였다면, 이건 **여러 종류의 AI.** 모델마다 상이한 훈련 분포·blind spot.
+  page_num: 72
+  cols:
+  - label: /ask [provider]
+    title: Claude 답이 불확실할 때 다른 모델에 의견 요청
+    code: '# 구조 리뷰를 Codex에게
+
+      /ask codex "이 계획에서 짠 구조 리뷰해줘. 빠진 부분 있는지"
+
+
+      # 디자인 자문을 Gemini에게
+
+      /ask gemini "이 카드 레이아웃 가독성 어떤지 피드백 줘"'
+    dark: true
+  - label: /ccg — Claude · Codex · Gemini
+    title: 세 모델 동시 송출 → **합의·불일치·불확실** 분리 표시
+    left_borders:
+    - title: 특히 빛나는 순간
+      body: '· 아키텍처 결정 (되돌리기 어려움)
+
+        · 디버깅이 막혔을 때
+
+        · 머지 전 코드 리뷰 최종 확인
+
+        · 계획 피드백 (다른 시각의 보완)'
+    dark: false
+- type: compare
+  section: SECTION 7
+  title: 실전 세팅 — 다중 세션 병렬
+  subtitle: cmux(AI 전용 터미널) + Git Worktree — 에이전트 3~4개를 동시에 돌리는 물리적 환경
+  page_num: 73
+  cols:
+  - label: ''
+    left_borders:
+    - title: 창 1 · 메인 작업
+      body: '현재 이슈 구현·수정
+
+        Opus 모델 · 핵심 컨텍스트 보호'
+    - title: 창 2 · 조사·탐색
+      body: '코드베이스 탐색, 문서 검색
+
+        Explore 서브에이전트 역할'
+    - title: 창 3 · 감시
+      body: '테스트·빌드 로그 실시간 확인
+
+        에이전트 완료 알림 수신'
+    - title: 창 4 · 이슈·PR
+      body: 'Linear 이슈 확인, PR 생성
+
+        git 상태·브랜치 관리'
+    dark: false
+  - label: Git Worktree — 창마다 독립 작업 디렉토리
+    code: 'claude --worktree feature-auth
+
+      # 한 줄로 워크트리 + 브랜치 + 세션 동시 생성
+
+      # 파일 충돌 0, 컨텍스트 오염 0'
+    dark: true
+  highlight: 핵심 — 메인 컨텍스트를 오염시키지 않는 것. 탐색은 서브 창에서, 결과만 메인에 전달.
+- type: compare
+  section: SECTION 7
+  title: 이슈 기반 워크플로우 — Linear(PIMS)에서 PR까지
+  subtitle: '**이슈 1개 = 에이전트 세션 1개.** 이슈 트래커가 곧 에이전트의 작업 지시서.'
+  page_num: 74
+  cols:
+  - label: AI 1팀 스킬 체인
+    code: 'issue-creator  구조화된 이슈 생성
+
+      issue-evidence AC별 증거 첨부
+
+      issue-validator DoD·AC 자동 검증'
+    dark: false
+  - label: 왜 이슈 기반인가
+    left_borders:
+    - title: 채팅 = 휘발. 이슈 = 지속적 컨텍스트
+    - title: AC가 명확하면 에이전트가 완료 판단 가능
+    - title: 이슈 단위 = 컨텍스트 드리프트 차단
+    dark: false
+  highlight: 'Linear — 개발팀 이슈 트래커. MCP 연결로 터미널에서 **이슈 → 코드 → PR → 검증** 전 과정 완결.
+
+
+    Linear(PIMS) 이슈 → Worktree 생성 → Claude 세션 → PR 생성 → 검증·완료'
+- type: chapter
+  number: 08
+  title: 모두의 이야기
+- type: quote
+  card: '이 발표를
+
+    **코드 한 줄 없이** 만든 방법'
+  subtitle: '한 것은 하나 — **하네스 설계**
+
+    지금부터 그 증거'
+  body: 기억하시나요
+- type: compare
+  section: SECTION 8
+  title: 이 발표가 만들어진 과정
+  subtitle: 김영동 + Claude — 마크다운과 규칙 문서만으로 **89장 제작**
+  page_num: 77
+  cols:
+  - label: 파이프라인 — 3층 + CLAUDE.md 하네스
+    body: '수집층: research · official · blog / linkedin · youtube
+
+      ↓ 원자료
+
+      계획층: sections/XX/README.md
+
+      ↓ 서술
+
+      실행층: decks/.../slide-XX.html
+
+      ↓ slides-grab Skill
+
+      claude-seminar.pdf'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 앞 섹션의 원리 그대로
+      body: Spec-first · 하네스 · Skill 재사용
+    - title: 특별한 기술 없음
+      body: 마크다운 + HTML + 규칙 문서
+    - title: 앞에서 다룬 원리 — 그대로 적용된 결과물
+    dark: false
+- type: compare
+  section: SECTION 8
+  title: 재료 1 — 폴더 구조로 박힌 분리
+  subtitle: 수집층 · 계획층 · 실행층이 **폴더 경계로 분리**. 규칙이 아닌 파일 구조로 강제.
+  page_num: 78
+  cols:
+  - label: ''
+    code: 'claude-seminar/
+
+      ├── research/   # 하네스·컨텍스트 리서치
+
+      ├── official/   # Claude Code 공식 문서
+
+      ├── blog/       # Anthropic + 한국 커뮤니티
+
+      ├── linkedin/   # 실무자 인사이트
+
+      ├── youtube/    # 영상 요약
+
+      │
+
+      ├── sections/   # 9개 섹션 마크다운 (계획)
+
+      ├── decks/claude-seminar/  # 슬라이드 (실행)
+
+      │   └── slide-01.html ~ slide-91.html
+
+      │
+
+      └── CLAUDE.md   # 프로젝트 규칙'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 수집 = 근거의 정박지
+      body: '"이 주장 어디서?" 질문에 → 파일이 답'
+    - title: 계획 ≠ 실행층
+      body: sections/에 본문 먼저, decks/는 디자인만 — 섹션 4의 Plan-Critic-Build 강제
+    - title: 근거 없이 작성 → 환각이 장표로 박제
+    dark: false
+- type: compare
+  section: SECTION 8
+  title: 재료 2 — CLAUDE.md가 만든 일관성
+  subtitle: 디자인 감각·카피 원칙이 **문서에 축적** · 새 슬라이드가 자동 추종
+  page_num: 79
+  cols:
+  - label: 초기 CLAUDE.md (v1)
+    code: '- 슬라이드 규격: 720pt × 405pt
+
+      - 폰트: Pretendard (CDN)
+
+      - 디자인 토큰 6개'
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 진화 과정
+      body: '초반: ~합니다 공손체 → 스캔 불가
+
+        중반: ~다 서술형 → 여전히 읽어야
+
+        결론: 명사형 통일 → CLAUDE.md에 고정'
+    - title: 현재 CLAUDE.md (피드백 5회 반영)
+      body: '+ 종결어미: 명사형·구 단위만
+
+        + 금지: 공손체·서술형·명령형
+
+        + 카드 레이아웃 규칙 추가
+
+        + 강조 체계 3단계 정의
+
+        + 피드백 관리 워크플로우'
+    - title: 89장에 걸쳐 카피 톤이 일관된 이유 — 사람의 89번 검토가 아닌, **한 번 쓴 규칙의 결과**
+    dark: false
+- type: content
+  section: SECTION 8
+  title: 재료 3 — slides-grab, Skill 경계로 박힌 분리
+  subtitle: '**slides-grab** — 오픈소스 Claude Code용 프레젠테이션 Skill. 아웃라인 → HTML 슬라이드 → PDF를 **3단으로 분리**.'
+  page_num: 80
+  stages:
+  - label: STAGE 1 · PLAN
+    title: slides-grab-plan
+    mono_lines:
+    - slide-outline.md 생성
+    - 사용자 승인까지 반복
+  - label: STAGE 2 · DESIGN
+    title: slides-grab-design
+    mono_lines:
+    - 승인된 아웃라인 →
+    - slide-XX.html 생성·수정
+  - label: STAGE 3 · EXPORT
+    title: slides-grab-export
+    mono_lines:
+    - HTML → PDF 변환
+    - 산출물 검증
+  full_card: '**왜 3단인가** — 단계 사이에 사용자 승인을 **물리적으로 강제**. Plan에서 방향이 틀어지면 Design·Export 비용 전부 낭비.'
+  note_card: Plan → Design → Export 사이에 **사람의 승인이 물리적으로 끼어듦** — 건너뛸 수 없는 관문.
+- type: compare
+  section: SECTION 8
+  title: 이 발표가 증거
+  subtitle: 이 장표 **89장 전부** — Claude Code로 제작. HTML 한 줄 직접 작성하지 않음.
+  page_num: 81
+  cols:
+  - label: 사용한 원칙 — 이 발표에서 다룬 것 그대로
+    left_borders:
+    - title: Spec-first
+      body: sections/README.md에 내용 먼저
+    - title: CLAUDE.md
+      body: 디자인 토큰 · 호흡 규칙 · 카피 원칙 고정
+    - title: 검증 분리
+      body: 피드백 → pending.md → 검토 후 반영
+    - title: 자동화
+      body: slides-grab으로 HTML → PDF 일괄 변환
+    dark: false
+  - label: 실제 워크플로우
+    left_borders:
+    - title: 1 섹션별 내용을 자연어로 정리
+    - title: 2 CLAUDE.md에 디자인 규칙 명세
+    - title: 3 Claude Code가 slide-XX.html 생성
+    - title: 4 피드백 8회 반복 → 최종 PDF
+    dark: false
+  highlight: 규칙을 하네스로 고정 → 실행은 에이전트에게 → 결과를 검수. **이 발표의 제작 과정 자체가 증거.**
+- type: compare
+  section: SECTION 8
+  title: AI를 잘 쓰는 법 — 결국 하나
+  subtitle: 코드 · 문서 · 기획 · 디자인 — 도메인은 달라도 원칙은 같음.
+  page_num: 82
+  cols:
+  - label: ''
+    left_borders:
+    - title: 원하는 것을 글로 먼저
+    - title: 규칙을 문서로 고정
+    - title: 결과를 사람이 검증
+    dark: false
+  - label: ''
+    left_borders:
+    - title: 이 발표
+      body: 섹션 README → CLAUDE.md → 피드백 검수
+    - title: 코딩
+      body: Spec → 하네스 규칙 → 테스트 검증
+    - title: 업무 전반
+      body: 요구사항 정리 → 기준 문서 → 결과 확인
+    dark: false
+  highlight: 새로 배울 것 없음 — **이미 알고 있는 원칙**을 AI 시대에 더 의식적으로
+- type: chapter
+  number: 09
+  title: 'AI 시대,
+
+    우리는 어떻게 해야 하나'
+- type: compare
+  section: SECTION 9
+  title: 최전선의 피로 — 똑같이 느끼는 그들
+  subtitle: '"지식이 쌓이는 속도보다 감가상각되는 속도가 더 빠르다. 나도 지쳤다." — Simon Willison, 2025'
+  page_num: 84
+  cols:
+  - label: FOMO-AI · 2025 학계 척도
+    left_borders:
+    - title: · 뒤처질까 두려움 (backwardness)
+    - title: · 좋은 도구를 못 쓸까 두려움 (access)
+    - title: · 남만 이득 볼까 두려움 (dividend)
+    dark: false
+  - label: 논문의 결론
+    title: FOMO를 가장 크게 줄이는 것 — 더 많은 정보가 아니라 **직접 써보기**
+    body: 맨 앞의 사람들조차 같은 피로 — 다른 점은 "더 빨리" 대신 "무엇을 남길지 고르기"에 시간 투자
+    dark: false
+- type: cards3
+  section: SECTION 9
+  title: 증폭되는 경험 — 세 개의 증언
+  subtitle: 50년 넘게 코드를 쓴 사람, 최전선에 있는 사람, 업계의 대부 — 세 사람이 거의 **같은 말**을 한다.
+  page_num: 85
+  cards:
+  - label: KENT BECK
+    title: TDD 창시자 · 52년
+    body: '"프로그래밍은 여전히 프로그래밍이다. 어떤 면에서는 훨씬 더 나은 경험이다. 시간당 더 **중요한 결정을** 내리게 된다."'
+    dark: false
+  - label: SIMON WILLISON
+    title: Vibe Engineering
+    body: '"AI는 **기존 전문성을 증폭**시킨다. 더 많은 기술과 경험을 가질수록 LLM으로부터 더 빠르고 더 좋은 결과를 얻는다."'
+    dark: false
+  - label: MARTIN FOWLER
+    title: Thoughtworks
+    body: '"AI는 주니어의 산출물은 복제할 수 있지만, **시니어의 경험과 판단은 복제할 수 없다.**"'
+    dark: false
+  note: '**AI 시대의 경험 — 축소가 아니라 증폭**
+
+    Spec-first · TDD · Plan-Critic · 검증 분리 — 시니어가 원래 하던 것. AI는 그걸 할 줄 아는 사람에게 주는 레버리지'
+- type: list-rows
+  section: SECTION 9
+  title: 내일부터
+  page_num: 86
+  rows:
+  - label: 글로 먼저
+    desc: CLAUDE.md 1페이지 작성, 또는 반복 업무 1개를 글로 명세
+  - label: 직접 써보기
+    desc: 터미널 열고 Claude Code 3~4창 — 토큰을 일부러라도 소비
+  - label: 도구
+    desc: Oh My Claude Code 설치 — 원리의 자동화
+  highlight: 안 쓰는 것보다 써보는 게 발전. "토큰을 많이 쓰는 사람이 가장 경쟁력 있는 개발자" — 박종천
+- type: closing
+  title: 감사합니다

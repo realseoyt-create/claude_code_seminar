@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ───── 디자인 토큰 ───── */
+:root {
+  --bg-light:    #F5F0EB;
+  --bg-dark:     #2D2A25;
+  --accent:      #C75C36;
+  --accent-dim:  rgba(199,92,54,0.15);
+  --text-dark:   #1E1C19;
+  --text-light:  #FFFFFF;
+  --text-muted:  #888880;
+  --text-sec:    #5A5853;
+  --card-light:  #EAE4DC;
+  --card-dark:   #3D3830;
+  --border:      #D5CEC5;
+  --code-bg:     #2D2A25;
+  --code-text:   #6EE7D8;
+  --strike:      #C75C36;
+}
+
+/* ───── 리셋 & 기본 ───── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ───── 페이지 설정 ───── */
+@page { size: 1280px 720px; margin: 0; }
+
+/* ───── 슬라이드 공통 ───── */
+.slide {
+  width: 1280px;
+  height: 720px;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+  background: var(--bg-light);
+}
+.slide:last-child { page-break-after: avoid; break-after: avoid; }
+.slide.dark { background: var(--bg-dark); }
+
+/* ───── 공통 컴포넌트 ───── */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: var(--text-light);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.accent-line {
+  width: 44px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+  margin-top: 18px;
+}
+.page-footer {
+  position: absolute;
+  bottom: 28px;
+  left: 60px;
+  right: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.card {
+  background: var(--card-light);
+  border-radius: 12px;
+  padding: 26px 28px;
+}
+.card.dark { background: var(--card-dark); color: var(--text-light); }
+.card.black { background: var(--bg-dark); color: var(--text-light); }
+.left-border {
+  border-left: 3px solid var(--accent);
+  padding-left: 14px;
+}
+strong { font-weight: 700; }
+em { font-style: italic; }
+.accent { color: var(--accent); }
+.strike-text { text-decoration: line-through; color: var(--accent); }
+code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ───── 코드 블록 ───── */
+.code-block {
+  background: var(--code-bg);
+  border-radius: 10px;
+  padding: 20px 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--code-text);
+  line-height: 1.7;
+  white-space: pre;
+}
+.code-block .strike { color: var(--strike); text-decoration: line-through; }
+
+/* ══════════════════════════════════════
+   1. COVER — 표지
+══════════════════════════════════════ */
+.slide-cover {
+  background: var(--bg-light);
+  padding: 44px 56px 44px;
+}
+.cover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cover-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.cover-logo-icon {
+  width: 34px; height: 34px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 18px; font-weight: 900;
+}
+.cover-badge {
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 18px;
+  border-radius: 20px;
+}
+.cover-body {
+  margin-top: 52px;
+}
+.cover-title {
+  font-size: 82px;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.cover-subtitle {
+  margin-top: 20px;
+  font-size: 18px;
+  color: var(--text-sec);
+  font-weight: 400;
+}
+.cover-meta {
+  position: absolute;
+  bottom: 44px;
+  left: 56px;
+  right: 56px;
+  display: flex;
+  gap: 60px;
+}
+.cover-meta-item label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.cover-meta-item .value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* ══════════════════════════════════════
+   2. TOC — 목차
+══════════════════════════════════════ */
+.slide-toc {
+  padding: 0 0 0 56px;
+}
+.toc-left {
+  position: absolute;
+  left: 56px;
+  bottom: 56px;
+}
+.toc-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.toc-title {
+  font-size: 68px;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1;
+}
+.toc-right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 720px;
+  height: 720px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 56px;
+  gap: 0;
+}
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.toc-item:last-child { border-bottom: none; }
+.toc-num {
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 4px;
+  min-width: 34px;
+  text-align: center;
+}
+.toc-num.inactive { background: var(--card-light); color: var(--text-muted); }
+.toc-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+.toc-text.active { color: var(--accent); font-weight: 700; }
+.toc-text.inactive { color: var(--text-muted); }
+
+/* ══════════════════════════════════════
+   3. CHAPTER — 챕터 타이틀 (dark)
+══════════════════════════════════════ */
+.slide-chapter {
+  background: var(--bg-dark);
+  padding: 80px 70px;
+}
+.chapter-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.chapter-title {
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--text-light);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* ══════════════════════════════════════
+   4. QUOTE — 임팩트 인용
+══════════════════════════════════════ */
+.slide-quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 60px 100px;
+}
+.quote-card {
+  background: var(--bg-dark);
+  border-radius: 14px;
+  padding: 44px 52px;
+  width: 100%;
+  text-align: center;
+}
+.quote-card .q-text {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+.quote-card .q-text .accent { color: var(--accent); }
+.quote-card .q-text strong { color: var(--accent); }
+.quote-sub strong { color: var(--accent); }
+.quote-sub {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+}
+.quote-sub .accent { color: var(--accent); }
+.quote-body {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-dark);
+  text-align: center;
+  line-height: 1.3;
+}
+.quote-tag {
+  font-size: 13px;
+  color: var(--accent);
+  font-style: italic;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════
+   5. STATS — 숫자 통계
+══════════════════════════════════════ */
+.slide-stats {
+  padding: 50px 60px 70px;
+  display: flex;
+  flex-direction: column;
+}
+.slide-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.slide-header .title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.stat-card {
+  background: var(--card-light);
+  border-radius: 12px;
+  padding: 40px 32px;
+  min-height: 220px;
+}
+.stat-value {
+  font-size: 64px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+.stat-desc {
+  font-size: 15px;
+  color: var(--text-sec);
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════
+   6. FLOW — 흐름도 + 사이드바
+══════════════════════════════════════ */
+.slide-flow {
+  padding: 50px 60px 70px;
+  display: flex;
+  flex-direction: column;
+}
+.flow-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+.flow-left { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.flow-item {
+  background: var(--card-light);
+  border-radius: 10px;
+  padding: 26px 24px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+  width: 100%;
+}
+.flow-item.highlight {
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+.flow-arrow {
+  font-size: 20px;
+  color: var(--accent);
+  padding: 10px 0;
+  font-weight: 700;
+}
+.flow-right { display: flex; flex-direction: column; gap: 28px; }
+.flow-desc-item {
+  border-left: 3px solid var(--accent);
+  padding-left: 16px;
+}
+.flow-desc-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+.flow-desc-body {
+  font-size: 14px;
+  color: var(--text-sec);
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════
+   7. COMPARE — 좌우 비교
+══════════════════════════════════════ */
+.slide-compare {
+  padding: 50px 60px 70px;
+  display: flex;
+  flex-direction: column;
+}
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 10px;
+  flex: 1;
+  align-content: start;
+}
+.compare-card {
+  background: var(--card-light);
+  border-radius: 12px;
+  padding: 30px;
+}
+.compare-card.dark {
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+.compare-card-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+.compare-card.dark .compare-card-label { color: var(--accent); }
+.compare-card-title {
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.compare-card.dark .compare-card-title { color: var(--text-light); }
+.compare-card-body {
+  font-size: 14px;
+  color: var(--text-sec);
+  line-height: 1.7;
+}
+.compare-card.dark .compare-card-body { color: #B8B4AE; }
+.compare-card-footer {
+  margin-top: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.compare-card.dark .compare-card-footer { color: var(--accent); }
+.compare-card.dark .c3-left-border { border-color: var(--accent); }
+.compare-card.dark .c3-lb-title { color: var(--text-light); }
+.compare-card.dark .c3-lb-body { color: #B8B4AE; }
+.compare-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--text-sec);
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.compare-card.dark .compare-bullet { color: #B8B4AE; }
+.compare-bullet-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+.compare-highlight {
+  margin-top: 14px;
+  background: var(--bg-dark);
+  border-radius: 10px;
+  padding: 16px 22px;
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.compare-highlight .accent { color: var(--accent); }
+.slide-subtitle {
+  font-size: 14px;
+  color: var(--text-sec);
+  margin-top: 6px;
+  margin-bottom: 16px;
+}
+
+/* ══════════════════════════════════════
+   8. CARDS3 — 3열 카드
+══════════════════════════════════════ */
+.slide-cards3 {
+  padding: 50px 60px 70px;
+  display: flex;
+  flex-direction: column;
+}
+.cards3-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+.c3-card {
+  background: var(--card-light);
+  border-radius: 12px;
+  padding: 28px 26px;
+  min-height: 240px;
+}
+.c3-card.dark {
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+.c3-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.c3-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.c3-card.dark .c3-title { color: var(--text-light); }
+.c3-body {
+  font-size: 14px;
+  color: var(--text-sec);
+  line-height: 1.7;
+}
+.c3-card.dark .c3-body { color: #B8B4AE; }
+.c3-limit {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.c3-card.dark .c3-limit { border-color: #4A4740; }
+.c3-current {
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 12px;
+  margin-top: 10px;
+}
+.c3-left-border {
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+  margin-bottom: 10px;
+}
+.c3-lb-title { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+.c3-card.dark .c3-lb-title { color: var(--text-light); }
+.c3-lb-body { font-size: 12.5px; color: var(--text-sec); line-height: 1.6; }
+.c3-card.dark .c3-lb-body { color: #B8B4AE; }
+.c3-divider { border-top: 1px solid var(--border); margin: 10px 0; }
+.c3-card.dark .c3-divider { border-color: #4A4740; }
+.c3-summary { font-size: 12px; font-weight: 600; color: var(--text-dark); margin-top: 6px; }
+.c3-card.dark .c3-summary { color: var(--text-light); }
+
+/* ══════════════════════════════════════
+   9. TABLE — 행 테이블
+══════════════════════════════════════ */
+.slide-table {
+  padding: 50px 60px 70px;
+  display: flex;
+  flex-direction: column;
+}
+.table-header-row {
+  display: grid;
+  padding: 0 24px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 6px;
+}
+.table-row {
+  display: grid;
+  background: var(--card-light);
+  border-radius: 10px;
+  padding: 17px 24px;
+  align-items: center;
+  margin-bottom: 7px;
+  font-size: 14.5px;
+}
+.table-row.highlight { background: var(--bg-dark); color: var(--text-light); }
+.table-cell-label {
+  font-weight: 700;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.table-row.highlight .table-cell-label { color: var(--accent); }
+.table-cell { color: var(--text-sec); font-size: 14.5px; line-height: 1.55; }
+.table-row.highlight .table-cell { color: var(--text-light); font-weight: 600; }
+.table-icon {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+
+/* ══════════════════════════════════════
+   10. LIST-ROWS — 레이블+설명 행 리스트
+══════════════════════════════════════ */
+.slide-list-rows {
+  padding: 50px 60px 70px;
+  display: flex;
+  flex-direction: column;
+}
+.list-rows-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+}
+.list-row {
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  background: var(--card-light);
+  border-radius: 10px;
+  padding: 14px 24px;
+  align-items: center;
+  font-size: 14.5px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.list-row-label {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.list-row-desc {
+  color: var(--text-sec);
+  line-height: 1.55;
+}
+
+/* ══════════════════════════════════════
+   11. GRID2x2 — 2×2 또는 혼합 그리드
+══════════════════════════════════════ */
+.slide-grid {
+  padding: 50px 60px 70px;
+  display: flex;
+  flex-direction: column;
+}
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+.grid-2col.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-card {
+  background: var(--card-light);
+  border-radius: 12px;
+  padding: 24px 24px;
+  min-height: 170px;
+}
+.grid-card.dark { background: var(--bg-dark); color: var(--text-light); }
+.grid-card.highlight-border { border-left: 3px solid var(--accent); }
+/* num inline badge with title */
+.grid-num-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.grid-card-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.grid-card-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+  letter-spacing: 0.05em;
+}
+.grid-card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.grid-card.dark .grid-card-title { color: var(--text-light); }
+.grid-num-title .grid-card-title { margin-bottom: 0; }
+.grid-card-body {
+  font-size: 13px;
+  color: var(--text-sec);
+  line-height: 1.65;
+}
+.grid-card.dark .grid-card-body { color: #B8B4AE; }
+.grid-card-cite {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  font-style: italic;
+}
+.grid-card.dark .grid-card-cite { color: #6A6760; }
+.grid-full {
+  grid-column: 1 / -1;
+  background: var(--bg-dark);
+  border-radius: 12px;
+  padding: 20px 24px;
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.grid-full .accent { color: var(--accent); }
+.grid-full.border-left { border-left: 3px solid var(--accent); }
+
+/* ══════════════════════════════════════
+   12. CONTENT — 복합 콘텐츠
+══════════════════════════════════════ */
+.slide-content {
+  padding: 50px 60px 70px;
+  display: flex;
+  flex-direction: column;
+}
+.content-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 10px;
+  flex: 1;
+}
+.content-card { background: var(--card-light); border-radius: 12px; padding: 24px; }
+.content-card.dark { background: var(--bg-dark); color: var(--text-light); }
+.content-card-title { font-size: 15px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+.content-card.dark .content-card-title { color: var(--accent); }
+.content-line {
+  font-size: 13px;
+  color: var(--text-sec);
+  line-height: 1.7;
+  margin-bottom: 2px;
+}
+.content-card.dark .content-line { color: #B8B4AE; }
+.content-card-big-quote {
+  background: var(--bg-dark);
+  border-radius: 12px;
+  padding: 22px 24px;
+  border-left: 3px solid var(--accent);
+  margin-bottom: 12px;
+}
+.content-card-big-quote .q { font-size: 16px; font-weight: 600; color: var(--text-light); line-height: 1.5; }
+.content-card-big-quote .cite { font-size: 12px; color: var(--text-muted); text-align: right; margin-top: 8px; }
+.content-bold-sub {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 16px 0 6px;
+}
+.content-body-text {
+  font-size: 13.5px;
+  color: var(--text-sec);
+  line-height: 1.65;
+}
+.content-mono-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  color: var(--text-sec);
+  margin-bottom: 4px;
+}
+.content-mono-item strong { color: var(--text-dark); }
+
+/* STAGE 3-col for content slides */
+.stage-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 10px;
+}
+.stage-card {
+  background: var(--card-light);
+  border-radius: 12px;
+  padding: 22px 20px;
+}
+.stage-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.stage-title { font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+.stage-mono {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.stage-desc { font-size: 12px; color: var(--text-sec); }
+
+/* numbered badge circles */
+.num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.num-badge-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-sec);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+/* ───── 화살표 ───── */
+.arrow-down { color: var(--accent); font-size: 20px; font-weight: 700; text-align: center; padding: 4px 0; }
+.arrow-right { color: var(--accent); font-size: 22px; font-weight: 700; align-self: center; }
+/* ══════════════════════════════════════
+   13. CLOSING — 감사합니다
+══════════════════════════════════════ */
+.slide-closing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+.closing-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 40px;
+}
+.closing-logo-icon {
+  width: 30px; height: 30px;
+  background: var(--accent);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 16px; font-weight: 900;
+}
+.closing-title {
+  font-size: 80px;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.closing-author {
+  font-size: 18px;
+  color: var(--text-sec);
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+</style>
+</head>
+<body>
+
+{%- macro footer(slide, meta) -%}
+<div class="page-footer">
+  <span>{{ slide.footer_left if slide.footer_left is defined else meta.title }}</span>
+  <span>{{ slide.page_num if slide.page_num is defined and slide.page_num }}</span>
+</div>
+{%- endmacro -%}
+
+{%- macro section_badge(text) -%}
+{%- if text %}<span class="section-badge">{{ text }}</span>{%- endif -%}
+{%- endmacro -%}
+
+{% for slide in slides %}
+
+{# ══ 1. COVER ══ #}
+{% if slide.type == 'cover' %}
+<div class="slide slide-cover">
+  <div class="cover-header">
+    <div class="cover-logo">
+      <div class="cover-logo-icon">✳</div>
+      Claude Code
+    </div>
+    <div class="cover-badge">{{ metadata.badge }}</div>
+  </div>
+  <div class="cover-body">
+    <div class="cover-title">{{ slide.title | md | safe }}</div>
+    <div class="cover-subtitle">{{ slide.subtitle }}</div>
+    <div class="accent-line"></div>
+  </div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>발표자</label>
+      <div class="value">{{ metadata.author }}</div>
+    </div>
+  </div>
+</div>
+
+{# ══ 2. TOC ══ #}
+{% elif slide.type == 'toc' %}
+<div class="slide slide-toc">
+  <div class="toc-left">
+    <div class="toc-label">CLAUDE CODE SEMINAR</div>
+    <div class="toc-title">목차</div>
+    <div class="accent-line"></div>
+  </div>
+  <div class="toc-right">
+    {% for item in slide['items'] %}
+    <div class="toc-item">
+      <span class="toc-num {% if not item.active %}inactive{% endif %}">{{ item.number }}</span>
+      <span class="toc-text {% if item.active %}active{% elif not item.active %}inactive{% endif %}">{{ item.title }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# ══ 3. CHAPTER ══ #}
+{% elif slide.type == 'chapter' %}
+<div class="slide slide-chapter">
+  <div class="chapter-num">{{ slide.number }}</div>
+  <div class="chapter-title">{{ slide.title | md | safe }}</div>
+  <div class="accent-line"></div>
+</div>
+
+{# ══ 4. QUOTE ══ #}
+{% elif slide.type == 'quote' %}
+<div class="slide slide-quote">
+  {% if slide.section and not slide.section.startswith('SECTION') %}
+  <div class="quote-tag">{{ slide.section }}</div>
+  {% endif %}
+  {% if slide.card %}
+  <div class="quote-card {% if slide.section and slide.section.startswith('추상화') %}code{% endif %}">
+    <div class="q-text">{{ slide.card | md | safe }}</div>
+  </div>
+  {% endif %}
+  {% if slide.subtitle %}
+  <div class="quote-sub">{{ slide.subtitle | md | safe }}</div>
+  {% endif %}
+  {% if slide.body %}
+  <div class="quote-body">{{ slide.body | md | safe }}</div>
+  {% endif %}
+</div>
+
+{# ══ 5. STATS ══ #}
+{% elif slide.type == 'stats' %}
+<div class="slide slide-stats">
+  <div class="slide-header">
+    {{ section_badge(slide.section) }}
+    <div class="title">{{ slide.title }}</div>
+  </div>
+  <div class="stats-grid">
+    {% for item in slide['items'] %}
+    <div class="stat-card">
+      <div class="stat-value">{{ item.value }}</div>
+      <div class="stat-desc">{{ item.text | md | safe }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {{ footer(slide, metadata) }}
+</div>
+
+{# ══ 6. FLOW ══ #}
+{% elif slide.type == 'flow' %}
+<div class="slide slide-flow">
+  <div class="slide-header">
+    {{ section_badge(slide.section) }}
+    <div class="title">{{ slide.title }}</div>
+  </div>
+  <div class="flow-body">
+    <div class="flow-left">
+      {% for item in slide.flow %}
+      <div class="flow-item {% if item.highlight %}highlight{% endif %}">{{ item.text | md | safe }}</div>
+      {% if not loop.last %}<div class="flow-arrow">↓</div>{% endif %}
+      {% endfor %}
+    </div>
+    <div class="flow-right">
+      {% for item in slide.sidebar %}
+      <div class="flow-desc-item">
+        <div class="flow-desc-title {% if item.accent %}accent{% endif %}">{{ item.title }}</div>
+        <div class="flow-desc-body">{{ item.body | md | safe }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {{ footer(slide, metadata) }}
+</div>
+
+{# ══ 7. COMPARE ══ #}
+{% elif slide.type == 'compare' %}
+<div class="slide slide-compare">
+  <div class="slide-header">
+    {{ section_badge(slide.section) }}
+    <div class="title">{{ slide.title }}</div>
+  </div>
+  {% if slide.subtitle %}<div class="slide-subtitle">{{ slide.subtitle | md | safe }}</div>{% endif %}
+  <div class="compare-grid">
+    {% for col in slide.cols %}
+    <div class="compare-card {% if col.dark %}dark{% endif %}">
+      {% if col.label %}<div class="compare-card-label">{{ col.label }}</div>{% endif %}
+      {% if col.title %}<div class="compare-card-title">{{ col.title | md | safe }}</div>{% endif %}
+      {% if col.code %}
+      <div class="code-block">{{ col.code | safe }}</div>
+      {% endif %}
+      {% if col.body %}<div class="compare-card-body">{{ col.body | md | safe }}</div>{% endif %}
+      {% if col.bullets %}
+      {% for b in col.bullets %}
+      <div class="compare-bullet"><span class="compare-bullet-dot"></span><span>{{ b | md | safe }}</span></div>
+      {% endfor %}
+      {% endif %}
+      {% if col.left_borders %}
+        {% for lb in col.left_borders %}
+        <div class="c3-left-border" style="margin-bottom:10px;">
+          <div class="c3-lb-title">{{ lb.title | md | safe }}</div>
+          {% if lb.body %}<div class="c3-lb-body">{{ lb.body | md | safe }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      {% endif %}
+      {% if col.footer %}<div class="compare-card-footer">{{ col.footer | md | safe }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if slide.highlight %}
+  <div class="compare-highlight">{{ slide.highlight | md | safe }}</div>
+  {% endif %}
+  {{ footer(slide, metadata) }}
+</div>
+
+{# ══ 8. CARDS3 ══ #}
+{% elif slide.type == 'cards3' %}
+<div class="slide slide-cards3">
+  <div class="slide-header">
+    {{ section_badge(slide.section) }}
+    <div class="title">{{ slide.title }}</div>
+  </div>
+  {% if slide.subtitle %}<div class="slide-subtitle">{{ slide.subtitle | md | safe }}</div>{% endif %}
+  <div class="cards3-grid">
+    {% for card in slide.cards %}
+    <div class="c3-card {% if card.dark %}dark{% endif %}">
+      {% if card.label %}<div class="c3-label">{{ card.label }}</div>{% endif %}
+      {% if card.title %}<div class="c3-title">{{ card.title | md | safe }}</div>{% endif %}
+      {% if card.body %}<div class="c3-body">{{ card.body | md | safe }}</div>{% endif %}
+      {% if card.limit %}<div class="c3-limit">{{ card.limit }}</div>{% endif %}
+      {% if card.current %}<div class="c3-current">{{ card.current }}</div>{% endif %}
+      {% if card.left_borders %}
+        {% for lb in card.left_borders %}
+        <div class="c3-left-border">
+          <div class="c3-lb-title">{{ lb.title | md | safe }}</div>
+          {% if lb.body %}<div class="c3-lb-body">{{ lb.body | md | safe }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      {% endif %}
+      {% if card.divider %}<div class="c3-divider"></div>{% endif %}
+      {% if card.summary %}<div class="c3-summary">{{ card.summary | md | safe }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if slide.note %}
+  <div class="grid-full border-left" style="margin-top:12px; font-size:13px;">{{ slide.note | md | safe }}</div>
+  {% endif %}
+  {% if slide.highlight %}
+  <div class="compare-highlight" style="margin-top:12px;">{{ slide.highlight | md | safe }}</div>
+  {% endif %}
+  {{ footer(slide, metadata) }}
+</div>
+
+{# ══ 9. TABLE ══ #}
+{% elif slide.type == 'table' %}
+<div class="slide slide-table">
+  <div class="slide-header">
+    {{ section_badge(slide.section) }}
+    <div class="title">{{ slide.title }}</div>
+  </div>
+  {% if slide.subtitle %}<div class="slide-subtitle">{{ slide.subtitle | md | safe }}</div>{% endif %}
+  {% if slide.columns %}
+  <div class="table-header-row" style="grid-template-columns: {{ slide.col_widths | default('1fr 1fr 2fr') }}">
+    {% for col in slide.columns %}
+    <span>{{ col }}</span>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% for row in slide.rows %}
+  <div class="table-row {% if row.highlight %}highlight{% endif %}" style="grid-template-columns: {{ slide.col_widths | default('1fr 1fr 2fr') }}">
+    <div class="table-cell-label">
+      {% if row.icon %}<span class="table-icon">{{ row.icon }}</span>{% endif %}
+      {{ row.label | md | safe }}
+    </div>
+    {% for val in row['values'] %}
+    <div class="table-cell">{{ val | md | safe }}</div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  {% if slide.highlight_box %}
+  <div class="grid-full" style="margin-top:12px; font-size:13px;">
+    {{ slide.highlight_box | md | safe }}
+  </div>
+  {% endif %}
+  {{ footer(slide, metadata) }}
+</div>
+
+{# ══ 10. LIST-ROWS ══ #}
+{% elif slide.type == 'list-rows' %}
+<div class="slide slide-list-rows">
+  <div class="slide-header">
+    {{ section_badge(slide.section) }}
+    <div class="title">{{ slide.title }}</div>
+  </div>
+  {% if slide.subtitle %}<div class="slide-subtitle">{{ slide.subtitle | md | safe }}</div>{% endif %}
+  <div class="list-rows-body">
+    {% for row in slide.rows %}
+    <div class="list-row">
+      <div class="list-row-label">{{ row.label | md | safe }}</div>
+      <div class="list-row-desc">{{ row.desc | md | safe }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% if slide.highlight %}
+  <div class="compare-highlight" style="margin-top:12px;">{{ slide.highlight | md | safe }}</div>
+  {% endif %}
+  {{ footer(slide, metadata) }}
+</div>
+
+{# ══ 11. GRID ══ #}
+{% elif slide.type == 'grid' %}
+<div class="slide slide-grid">
+  <div class="slide-header">
+    {{ section_badge(slide.section) }}
+    <div class="title">{{ slide.title }}</div>
+  </div>
+  {% if slide.subtitle %}<div class="slide-subtitle">{{ slide.subtitle | md | safe }}</div>{% endif %}
+  <div class="grid-2col {% if slide.cards|length >= 6 %}cols-3{% endif %}">
+    {% for card in slide.cards %}
+    <div class="grid-card {% if card.dark %}dark{% endif %} {% if card.border %}highlight-border{% endif %}">
+      {% if card.num and card.title %}
+      <div class="grid-num-title">
+        <div class="num-badge">{{ card.num }}</div>
+        <div class="grid-card-title">{{ card.title | md | safe }}</div>
+      </div>
+      {% elif card.num %}
+      <div class="grid-card-num">{{ card.num }}</div>
+      {% endif %}
+      {% if card.label %}<div class="grid-card-label">{{ card.label }}</div>{% endif %}
+      {% if card.title and not card.num %}<div class="grid-card-title">{{ card.title | md | safe }}</div>{% endif %}
+      {% if card.body %}<div class="grid-card-body">{{ card.body | md | safe }}</div>{% endif %}
+      {% if card.cite %}<div class="grid-card-cite">{{ card.cite }}</div>{% endif %}
+      {% if card.left_borders %}
+        {% for lb in card.left_borders %}
+        <div class="c3-left-border" style="margin-bottom:10px;">
+          <div class="c3-lb-title">{{ lb.title | md | safe }}</div>
+          {% if lb.body %}<div class="c3-lb-body">{{ lb.body | md | safe }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      {% endif %}
+      {% if card.mono_lines %}
+        {% for ml in card.mono_lines %}
+        <div class="content-mono-item">{{ ml | md | safe }}</div>
+        {% endfor %}
+      {% endif %}
+      {% if card.num_rows %}
+        {% for nr in card.num_rows %}
+        <div class="num-badge-row">
+          <span class="num-badge">{{ loop.index }}</span>
+          <span>{{ nr | md | safe }}</span>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% if slide.full_card %}
+    <div class="grid-full {% if slide.full_card.border %}border-left{% endif %}">
+      {{ slide.full_card.text | md | safe }}
+    </div>
+    {% endif %}
+  </div>
+  {% if slide.cite %}<div style="text-align:right;font-size:11px;color:var(--text-muted);margin-top:6px;">{{ slide.cite }}</div>{% endif %}
+  {{ footer(slide, metadata) }}
+</div>
+
+{# ══ 12. CONTENT ══ #}
+{% elif slide.type == 'content' %}
+<div class="slide slide-content">
+  <div class="slide-header">
+    {{ section_badge(slide.section) }}
+    <div class="title">{{ slide.title }}</div>
+  </div>
+  {% if slide.subtitle %}<div class="slide-subtitle">{{ slide.subtitle | md | safe }}</div>{% endif %}
+
+  {% if slide.big_quote %}
+  <div class="content-card-big-quote">
+    <div class="q">{{ slide.big_quote.text | md | safe }}</div>
+    {% if slide.big_quote.cite %}<div class="cite">{{ slide.big_quote.cite }}</div>{% endif %}
+  </div>
+  {% endif %}
+
+  {% if slide.cols %}
+  <div class="content-2col">
+    {% for col in slide.cols %}
+    <div class="content-card {% if col.dark %}dark{% endif %}">
+      {% if col.title %}<div class="content-card-title">{{ col.title | md | safe }}</div>{% endif %}
+      {% for line in (col['lines'] or []) %}
+      <div class="content-line">{{ line | md | safe }}</div>
+      {% endfor %}
+      {% for ml in (col.mono_lines or []) %}
+      <div class="content-mono-item">{{ ml | md | safe }}</div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if slide.stages %}
+  <div class="stage-3col">
+    {% for st in slide.stages %}
+    <div class="stage-card">
+      {% if st.label %}<div class="stage-label">{{ st.label }}</div>{% endif %}
+      <div class="stage-title">{{ st.title }}</div>
+      {% for ml in (st.mono_lines or []) %}<div class="stage-mono">{{ ml }}</div>{% endfor %}
+      {% for dl in (st.desc_lines or []) %}<div class="stage-desc">{{ dl }}</div>{% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if slide.full_card %}
+  <div class="grid-full border-left" style="margin-top:12px;">
+    {{ slide.full_card | md | safe }}
+  </div>
+  {% endif %}
+
+  {% if slide.note_card %}
+  <div class="grid-full" style="margin-top:12px; font-size:13px;">
+    {{ slide.note_card | md | safe }}
+  </div>
+  {% endif %}
+
+  {{ footer(slide, metadata) }}
+</div>
+
+{# ══ 13. CLOSING ══ #}
+{% elif slide.type == 'closing' %}
+<div class="slide slide-closing">
+  <div class="closing-logo">
+    <div class="closing-logo-icon">✳</div>
+    Claude Code
+  </div>
+  <div class="closing-title">{{ slide.title }}</div>
+  <div class="closing-author">{{ metadata.author }}</div>
+  <div class="accent-line"></div>
+</div>
+
+
+{% endif %}
+{% endfor %}
+
+</body>
+</html>
