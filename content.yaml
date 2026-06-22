@@ -2,7 +2,6 @@ metadata:
   title: 클로드코드 잘 사용하기
   subtitle: AI와 함께하는 새로운 개발 워크플로우
   author: Test기술팀 서영택
-  badge: 전사 세미나
 slides:
 - type: cover
   title: '클로드코드

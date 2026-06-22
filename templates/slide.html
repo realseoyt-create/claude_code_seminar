@@ -905,7 +905,7 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
       <div class="cover-logo-icon">✳</div>
       Claude Code
     </div>
-    <div class="cover-badge">{{ metadata.badge }}</div>
+    {% if metadata.badge %}<div class="cover-badge">{{ metadata.badge }}</div>{% endif %}
   </div>
   <div class="cover-body">
     <div class="cover-title">{{ slide.title | md | safe }}</div>
