@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_OUTPUT\" | grep -q 'output.pdf 생성 완료'; then python3 -c \"import fitz, os; doc=fitz.open('output.pdf'); size=os.path.getsize('output.pdf')//1024; count=len(doc); status='✅' if count==87 else '⚠️ 페이지 수 불일치'; print(f'{status} {count}페이지 / {size}KB')\"; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
