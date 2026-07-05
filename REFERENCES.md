@@ -6,6 +6,7 @@
 
 | 플랫폼 | 채널/계정 | 설명 |
 |---------|-----------|------|
+| DSDN | https://dsdn.samsungds.net/question/1983434232105537536?history=true | [AWS 강의] 영상 10개로 완성하는 Claude Code |
 | YouTube | [빌더 조쉬](https://www.youtube.com/@builderjosh) | 하네스 엔지니어링 · AI 네이티브 조직 설계 |
 | 커뮤니티 | [GeekNews](https://news.hada.io/) | 한국 개발자 뉴스 큐레이션 |
 | 커뮤니티 | [Claude Code Community](https://discord.gg/claudecode) | Discord · 실전 사용 사례 공유 |
