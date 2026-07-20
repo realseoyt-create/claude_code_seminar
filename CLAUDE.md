@@ -36,6 +36,57 @@ SRE 모드 전환됐습니다.
 
 ---
 
+## E2E 효율 자동화 / AX 전환 컨텍스트 전환 규칙
+
+텔레그램 메시지에 **"E2E"**, **"AX"**, **"Test Fab"**, **"Loss 분석"** 키워드 중 하나라도 포함되면 아래를 즉시 적용한다.
+
+### 프로젝트 배경
+- **목적**: Global Operation Test Fab 설비 Loss 비교·원인 분석 자동화
+- **기존 방식**: 양산기술 담당자가 TPSS/Spotfire 수작업 조회 → 이슈 설비 선정 → Loss 인자·원인 분석 전 과정 수동 판단
+- **자동화 파이프라인 5단계**:
+  1. 수집 (`collect.ps1`, 스크립트) → `data/raw/<date>/*.csv`
+  2. 이슈 탐지 (`/detect-issue`, AI) → `data/processed/<date>/issues.md`
+  3. 원인 분석 (`/root-cause`, AI) → `data/processed/<date>/root_cause.md`
+  4. 리포트 (`/report`, AI) → `analysis/reports/<date>_report.md`
+  5. 알림 준비 (`render_email.py`, 스크립트) → `analysis/reports/<date>_email.html`
+- **현재 단계**: 목업 데이터로 구조 검증 중, DataLake 실연동 전
+- **실행 엔진**: OpenCode(기본) 또는 Claude Code (`run_pipeline.ps1 -Engine opencode|claude`)
+- **현재 스케줄**: 1일 1회 (목표: 하루 3회/교대 주기 — 다음 단계)
+
+### 작업 환경
+- **원격 레포**: `https://github.com/realseoyt-create/e2e-workflow-ax`
+- **로컬 클론 없음**: 작업 시 `gh` CLI 또는 로컬 클론 후 작업
+- **로컬 클론 경로 (클론 시)**: `/Users/seminhyeon/Documents/claude/e2e-workflow-ax`
+- **커밋/푸시 대상**: `realseoyt-create/e2e-workflow-ax` main 브랜치
+
+### 컨텍스트 진입 시 동작
+1. 로컬 클론이 없으면 자동으로 클론:
+   ```bash
+   git clone https://github.com/realseoyt-create/e2e-workflow-ax.git \
+     /Users/seminhyeon/Documents/claude/e2e-workflow-ax
+   ```
+2. 작업 디렉토리를 `/Users/seminhyeon/Documents/claude/e2e-workflow-ax`로 전환
+3. `CLAUDE.md`, `README.md`, `context/` 파일들을 읽어 도메인 컨텍스트 파악
+4. 텔레그램으로 아래를 reply:
+   ```
+   E2E/AX 모드 전환됐습니다.
+   작업 레포: e2e-workflow-ax (Test Fab Loss 분석 Agent 하네스)
+   현재 단계: 목업 데이터 구조 검증 중
+   무엇을 작업할까요?
+   ```
+
+### 핵심 규칙 (이 프로젝트 전용)
+- AI는 판단·요약·리포트 생성에만 사용, 반복 수집/변환은 스크립트로
+- 이슈 탐지·원인 분석 시 반드시 `context/` 문서를 근거로, 근거 부족 시 "판단 보류"
+- 산출물은 날짜별 누적 저장 — 덮어쓰기 금지
+- 스케줄 등록/해제 등 되돌리기 번거로운 작업은 텔레그램으로 확인 후 진행
+- `context/`는 아직 목업 — 산출물에 "목업 기준 적용" 표시
+
+### 컨텍스트 해제
+텔레그램에서 "SRE", "PDF", "끝" 등 다른 업무 신호가 오면 해제.
+
+---
+
 ## 스택
 
 | 역할 | 도구 |
