@@ -18,6 +18,24 @@ Claude Code UI(텔레그램 태그 없는 일반 메시지)에서는 기존 방�
 
 ---
 
+## SRE 업무 컨텍스트 전환 규칙
+
+텔레그램 메시지에 **"SRE"** 또는 **"SRE 업무"** 키워드가 포함되어 있으면 아래를 즉시 적용한다.
+
+- **작업 디렉토리**: `/Users/seminhyeon/Documents/claude/server-ops-guide`
+- **원격 레포**: `https://github.com/realseoyt-create/server-ops-guide`
+- **작업 대상**: 해당 레포의 마크다운 문서 작성·수정·커밋·푸시
+- **컨텍스트 해제**: 텔레그램에서 "SRE 끝" 또는 다른 작업 신호가 올 때까지 유지
+
+SRE 컨텍스트 진입 시 텔레그램으로 아래를 reply한다:
+```
+SRE 모드 전환됐습니다.
+작업 레포: server-ops-guide
+무엇을 업데이트할까요?
+```
+
+---
+
 ## 스택
 
 | 역할 | 도구 |
